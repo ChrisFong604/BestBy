@@ -8,12 +8,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@expo-google-fonts/inter": "^0.2.0",
     "@expo-google-fonts/quicksand": "^0.2.0",
-=======
     "@react-navigation/native": "^5.9.4",
->>>>>>> 74b83b52398bd082b4509f6fbe0488b09f4a5ab5
     "expo": "~42.0.1",
     "expo-app-loading": "^1.1.2",
     "expo-font": "~9.2.1",
