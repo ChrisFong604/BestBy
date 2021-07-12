@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, TextInput, Button, Alert, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import { 
   useFonts,
   Quicksand_300Light,
@@ -9,11 +10,6 @@ import {
   Quicksand_600SemiBold,
   Quicksand_700Bold 
 } from '@expo-google-fonts/quicksand'
-
-
-import DumbComponent from './components/DumbComponent';
-import NewView from './components/NewView';
-import styles from './stylesheets/Default';
 
 export default function App() {
 
@@ -31,6 +27,7 @@ export default function App() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text style={{ fontFamily: 'Quicksand_700Bold ', fontSize: 40 }}>BestBy</Text>
+        <Text style={{ fontSize: 40 }}>Platform Default</Text>
         <StatusBar style="auto" />
 
         <Button
@@ -38,8 +35,6 @@ export default function App() {
           color="#841584"
           accessibilityLabel="Learn more about this purple button"
         />
-        <DumbComponent />
-        <NewView />
 
         <Text style={{ fontFamily: 'Quicksand_400Regular', fontSize: 40 }}>Extra</Text>
       </View>
