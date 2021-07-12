@@ -14,6 +14,7 @@ import {
 
 import Default from './stylesheets/DefaultStyles'
 
+
 export default function App() {
 
   let [fontsLoaded] = useFonts({
