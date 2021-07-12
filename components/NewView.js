@@ -4,7 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import styles from '../stylesheets/Default';
 
 const NewView = () => (
-    <View style={styles.container}>
+    <View style={styles.card}>
         <Text>This is the NewView!</Text>
     </View>
 );
