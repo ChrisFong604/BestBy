@@ -1,9 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, TextInput, Button, Alert, View } from 'react-native';
-import DumbComponent from './components/DumbComponent';
-import NewView from './components/NewView';
-import styles from './stylesheets/Default';
 
 export default function App() {
   return (
