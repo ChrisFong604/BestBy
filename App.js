@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, TextInput, Button, Alert, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import AppLoading from 'expo-app-loading';
+import { LinearGradient } from 'expo-linear-gradient';
 import { 
   useFonts,
   Quicksand_300Light,
@@ -10,6 +11,8 @@ import {
   Quicksand_600SemiBold,
   Quicksand_700Bold 
 } from '@expo-google-fonts/quicksand'
+
+import Default from './stylesheets/DefaultStyles'
 
 export default function App() {
 
@@ -25,19 +28,21 @@ export default function App() {
     return <AppLoading />;
   } else {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <Text style={{ fontFamily: 'Quicksand_700Bold ', fontSize: 40 }}>BestBy</Text>
-        <Text style={{ fontSize: 40 }}>Platform Default</Text>
-        <StatusBar style="auto" />
+      <LinearGradient
+          colors={['rgba(0,0,0,0.2)', 'transparent']}
+        >
+        <View style={ Default.ViewContainer }>
+            
 
-        <Button
-          title="Learn More"
-          color="#841584"
-          accessibilityLabel="Learn more about this purple button"
-        />
-
-        <Text style={{ fontFamily: 'Quicksand_400Regular', fontSize: 40 }}>Extra</Text>
-      </View>
+            <Text style={ Default.HeaderText }>BestBy</Text>
+            <Text style={ Default.BodyText }>An all-in-one food management system</Text>
+          <Button
+            title="Learn More"
+            color="#841584"
+            accessibilityLabel="Learn more about this purple button"
+          />
+        </View>
+      </LinearGradient>
     );
   }
 }
