@@ -11,6 +11,7 @@ import {
 } from '@expo-google-fonts/quicksand'
 
 
+import { NavigationContainer } from '@react-navigation/native';
 import DumbComponent from './components/DumbComponent';
 import NewView from './components/NewView';
 import styles from './stylesheets/Default';
@@ -40,6 +41,13 @@ export default function App() {
         />
         <DumbComponent />
         <NewView />
+      <Button
+        title="Learn More"
+        color="#841584"
+        accessibilityLabel="Learn more about this purple button"
+      />
+      <DumbComponent/>
+      <Text> HELLO! </Text>
 
         <Text style={{ fontFamily: 'Quicksand_400Regular', fontSize: 40 }}>Extra</Text>
       </View>
