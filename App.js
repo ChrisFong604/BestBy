@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, TextInput, Button, Alert, View } from 'react-native';
-<<<<<<< HEAD
 import { 
   useFonts,
   Quicksand_300Light,
@@ -16,8 +15,6 @@ import { NavigationContainer } from '@react-navigation/native';
 import DumbComponent from './components/DumbComponent';
 import NewView from './components/NewView';
 import styles from './stylesheets/Default';
-=======
->>>>>>> 84908d1bc9c69b80a43c7786725d6737dc5f19ec
 
 export default function App() {
 
