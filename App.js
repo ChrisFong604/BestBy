@@ -29,7 +29,7 @@ export default function App() {
   } else {
     return (
       <LinearGradient
-          colors={['rgba(0,0,0,0.2)', 'transparent']}
+          colors={['rgba(0,0,0,0.5)', 'transparent']}
         >
         <View style={ Default.ViewContainer }>
             
@@ -38,7 +38,7 @@ export default function App() {
             <Text style={ Default.BodyText }>An all-in-one food management system</Text>
           <Button
             title="Learn More"
-            color="#841584"
+            color="#fff"
             accessibilityLabel="Learn more about this purple button"
           />
         </View>
