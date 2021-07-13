@@ -1,26 +1,27 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import { 
-    Quicksand_300Light,
-    Quicksand_400Regular,
-    Quicksand_500Medium,
-    Quicksand_600SemiBold,
-    Quicksand_700Bold 
-  } from '@expo-google-fonts/quicksand'
+import { StyleSheet } from "react-native";
 
-export default StyleSheet.create ({
-    ViewContainer: {
-        flex: 1, 
-        alignItems: 'center', 
-        paddingTop: 50
-    },
-    Card: {
-    },
-    BodyText: {
-        fontFamily: 'Quicksand_400Regular'
-    },
-    HeaderText: {
-        fontFamily: 'Quicksand_700Bold',
-        fontSize: 40
-    }
-})
+export default StyleSheet.create({
+	ViewContainer: {
+		alignItems: "center",
+	},
+	BodyText: {
+		padding: 10,
+	},
+	HeaderText: {
+		paddingTop: 20,
+		paddingBottom: 15,
+	},
+	Input: {
+		height: 40,
+		width: 200,
+		margin: 5,
+		paddingLeft: 15,
+		borderWidth: 1,
+		borderRadius: 50,
+	},
+	Btn: {
+		marginHorizontal: 15,
+		color: "#000",
+		backgroundColor: "#000",
+	},
+});
