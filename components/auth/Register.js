@@ -1,20 +1,31 @@
-import { bind, bindAll } from "lodash";
 import React, { Component } from "react";
-import { SafeAreaView, TextInput } from "react-native";
-import View from "react-native-gesture-handler/lib/typescript/GestureHandlerRootView";
+import { SafeAreaView, TextInput, Button } from "react-native";
 
-export class Register extends Component {
-	constuctor(props) {
+import firebase from "firebase";
+export class RegisterScreen extends Component {
+	constructor(props) {
 		super(props);
 
 		this.state = {
-			name: "",
 			email: "",
 			password: "",
+			name: "",
 		};
+		this.onSignUp = this.onSignUp.bind(this);
 	}
 
-	onSignUp() {}
+	onSignUp() {
+		const { email, password, name } = this.state;
+		firebase
+			.auth()
+			.createUserWithEmailAndPassword(email, password)
+			.then((result) => {
+				console.log(result);
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
 
 	render() {
 		return (
@@ -28,7 +39,7 @@ export class Register extends Component {
 					onChangeText={(email) => this.setState({ email })}
 				/>
 				<TextInput
-					placeholder="name"
+					placeholder="password"
 					secureTextEntry={true}
 					onChangeText={(password) => this.setState({ password })}
 				/>
@@ -38,4 +49,4 @@ export class Register extends Component {
 	}
 }
 
-export default Register;
+export default RegisterScreen;
