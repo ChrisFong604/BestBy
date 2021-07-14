@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { Text } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Text, View } from "react-native";
 
 import firebase from "firebase/app";
 
@@ -23,11 +23,51 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import LandingScreen from "./components/auth/Landing";
 import RegisterScreen from "./components/auth/Register";
+import LoginScreen from "./components/auth/Login";
+import Default from "./stylesheets/DefaultStyles";
 
 const Stack = createStackNavigator();
 
+//Using React hooks as opposed to class in the tutorial
 export default function App() {
+	const [loaded, setLoaded] = useState(false);
+	const [loggedIn, setLoggedIn] = useState(false);
+
+	useEffect(() => {
+		firebase.auth().onAuthStateChanged((user) => {
+			if (!user) {
+				setLoggedIn(false);
+				setLoaded(true);
+			} else {
+				setLoggedIn(true);
+				setLoaded(true);
+			}
+		});
+	});
+	if (!loaded) {
+		return (
+			<View style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}>
+				<Text>Loading</Text>
+			</View>
+		);
+	}
+	if (!loggedIn) {
+		return (
+			<NavigationContainer>
+				<Stack.Navigator initialrouteName="Landing">
+					<Stack.Screen
+						name="Landing"
+						component={LandingScreen}
+						options={{ headerShown: false }}
+					/>
+					<Stack.Screen name="Register" component={RegisterScreen} />
+					<Stack.Screen name="Login" component={LoginScreen} />
+				</Stack.Navigator>
+			</NavigationContainer>
+		);
+	}
 	return (
+		//When User is logged in
 		<NavigationContainer>
 			<Stack.Navigator initialrouteName="Landing">
 				<Stack.Screen
@@ -36,6 +76,7 @@ export default function App() {
 					options={{ headerShown: false }}
 				/>
 				<Stack.Screen name="Register" component={RegisterScreen} />
+				<Stack.Screen name="Login" component={LoginScreen} />
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
