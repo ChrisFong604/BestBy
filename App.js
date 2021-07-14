@@ -4,6 +4,12 @@ import { Text, View } from "react-native";
 
 import firebase from "firebase/app";
 
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import rootReducer from "./redux/reducers";
+import thunk from "redux-thunk";
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 const firebaseConfig = {
 	apiKey: "AIzaSyCeiTn_h_M0Qn142qjJt32-6tGSQixTgWw",
 	authDomain: "bestby-2a9ad.firebaseapp.com",
@@ -24,7 +30,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import LandingScreen from "./components/auth/Landing";
 import RegisterScreen from "./components/auth/Register";
 import LoginScreen from "./components/auth/Login";
-import Default from "./stylesheets/DefaultStyles";
+import MainScreen from "./components/Main";
+
+import Default from "./stylesheets/Default";
+import { QStext } from "./components/UI-Components/QStext";
 
 const Stack = createStackNavigator();
 
@@ -68,16 +77,8 @@ export default function App() {
 	}
 	return (
 		//When User is logged in
-		<NavigationContainer>
-			<Stack.Navigator initialrouteName="Landing">
-				<Stack.Screen
-					name="Landing"
-					component={LandingScreen}
-					options={{ headerShown: false }}
-				/>
-				<Stack.Screen name="Register" component={RegisterScreen} />
-				<Stack.Screen name="Login" component={LoginScreen} />
-			</Stack.Navigator>
-		</NavigationContainer>
+		<Provider store={store}>
+			<MainScreen />
+		</Provider>
 	);
 }
