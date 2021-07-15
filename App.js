@@ -1,9 +1,15 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
-import { Text } from "react-native";
+import React, { useState, useEffect } from "react";
+import { Text, View } from "react-native";
 
 import firebase from "firebase/app";
 
+import { Provider } from "react-redux";
+import { createStore, applyMiddleware } from "redux";
+import rootReducer from "./redux/reducers";
+import thunk from "redux-thunk";
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
 const firebaseConfig = {
 	apiKey: "AIzaSyCeiTn_h_M0Qn142qjJt32-6tGSQixTgWw",
 	authDomain: "bestby-2a9ad.firebaseapp.com",
@@ -23,20 +29,56 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import LandingScreen from "./components/auth/Landing";
 import RegisterScreen from "./components/auth/Register";
+import LoginScreen from "./components/auth/Login";
+import MainScreen from "./components/Main";
+
+import Default from "./components/UI-Components/Default";
+import { QStext } from "./components/UI-Components/QStext";
 
 const Stack = createStackNavigator();
 
+//Using React hooks as opposed to class in the tutorial
 export default function App() {
+	const [loaded, setLoaded] = useState(false);
+	const [loggedIn, setLoggedIn] = useState(false);
+
+	useEffect(() => {
+		firebase.auth().onAuthStateChanged((user) => {
+			if (!user) {
+				setLoggedIn(false);
+				setLoaded(true);
+			} else {
+				setLoggedIn(true);
+				setLoaded(true);
+			}
+		});
+	});
+	if (!loaded) {
+		return (
+			<View style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}>
+				<Text>Loading</Text>
+			</View>
+		);
+	}
+	if (!loggedIn) {
+		return (
+			<NavigationContainer>
+				<Stack.Navigator initialrouteName="Landing">
+					<Stack.Screen
+						name="Landing"
+						component={LandingScreen}
+						options={{ headerShown: false }}
+					/>
+					<Stack.Screen name="Register" component={RegisterScreen} />
+					<Stack.Screen name="Login" component={LoginScreen} />
+				</Stack.Navigator>
+			</NavigationContainer>
+		);
+	}
 	return (
-		<NavigationContainer>
-			<Stack.Navigator initialrouteName="Landing">
-				<Stack.Screen
-					name="Landing"
-					component={LandingScreen}
-					options={{ headerShown: false }}
-				/>
-				<Stack.Screen name="Register" component={RegisterScreen} />
-			</Stack.Navigator>
-		</NavigationContainer>
+		//When User is logged in
+		<Provider store={store}>
+			<MainScreen />
+		</Provider>
 	);
 }

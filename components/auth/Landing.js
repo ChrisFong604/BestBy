@@ -8,7 +8,7 @@ import {
 	TextInput,
 } from "react-native";
 
-import Default from "../../stylesheets/DefaultStyles";
+import { Default } from "../UI-Components/Default";
 import { QStext } from "../UI-Components/QStext";
 
 export default function LandingScreen({ navigation }) {
@@ -32,8 +32,8 @@ export default function LandingScreen({ navigation }) {
 					h2
 					style={{ marginTop: 50, marginBottom: 25 }}
 				/>
-				<TextInput style={Default.Input} value="Name"></TextInput>
-				<TextInput style={Default.Input} value="Password"></TextInput>
+				<TextInput style={Default.Input} placeholder="Name"></TextInput>
+				<TextInput style={Default.Input} placeholder="Password"></TextInput>
 			</View>
 			<View style={{ flexDirection: "row", marginTop: 25 }}>
 				<Button
