@@ -32,7 +32,7 @@ import RegisterScreen from "./components/auth/Register";
 import LoginScreen from "./components/auth/Login";
 import MainScreen from "./components/Main";
 
-import Default from "./stylesheets/Default";
+import Default from "./components/UI-Components/Default";
 import { QStext } from "./components/UI-Components/QStext";
 
 const Stack = createStackNavigator();
