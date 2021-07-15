@@ -4,6 +4,11 @@ export default StyleSheet.create({
 	ViewContainer: {
 		flex: 1,
 		alignItems: "center",
+		marginTop: 20,
+	},
+	MiniContainer: {
+		flex: 1,
+		alignItems: "center",
 	},
 	BodyText: {
 		padding: 10,
@@ -19,10 +24,5 @@ export default StyleSheet.create({
 		paddingLeft: 15,
 		borderWidth: 1,
 		borderRadius: 50,
-	},
-	Btn: {
-		marginHorizontal: 15,
-		color: "#000",
-		backgroundColor: "#000",
 	},
 });
