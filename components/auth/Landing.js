@@ -8,7 +8,7 @@ import {
 	TextInput,
 } from "react-native";
 
-import { Default } from "../UI-Components/Default";
+import Default from "../UI-Components/Default";
 import { QStext } from "../UI-Components/QStext";
 
 export default function LandingScreen({ navigation }) {

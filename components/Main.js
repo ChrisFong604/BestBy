@@ -1,5 +1,7 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { TabBarIOS, Text, View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -8,6 +10,7 @@ import { fetchUser } from "../redux/actions/index";
 import { QStext } from "./UI-Components/QStext";
 import Default from "./UI-Components/Default";
 
+const Tab = createBottomTabNavigator();
 export class Main extends Component {
 	componentDidMount() {
 		this.props.fetchUser();
@@ -21,12 +24,9 @@ export class Main extends Component {
 		}
 
 		return (
-			<View style={Default.ViewContainer}>
-				<QStext text={currentUser.name + " is logged in"} h2 />
-				<QStext text={currentUser.name + " is logged in"} h3 />
-				<QStext text={currentUser.name + " is logged in"} h4 />
-				<QStext text={currentUser.name + " is logged in"} p />
-			</View>
+			<Tab.Navigator>
+				<Tab.Screen name="Home" component={HomeScreen} />
+			</Tab.Navigator>
 		);
 	}
 }

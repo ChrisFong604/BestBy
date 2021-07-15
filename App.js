@@ -55,7 +55,7 @@ export default function App() {
 	});
 	if (!loaded) {
 		return (
-			<View style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}>
+			<View style={Default.ViewContainer}>
 				<Text>Loading</Text>
 			</View>
 		);
@@ -78,7 +78,13 @@ export default function App() {
 	return (
 		//When User is logged in
 		<Provider store={store}>
-			<MainScreen />
+			<Stack.Navigator initialrouteName="Maing">
+				<Stack.Screen
+					name="Main"
+					component={MainScreen}
+					options={{ headerShown: false }}
+				/>
+			</Stack.Navigator>
 		</Provider>
 	);
 }
