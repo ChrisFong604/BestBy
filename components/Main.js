@@ -12,6 +12,8 @@ import { QStext } from "./UI-Components/QStext";
 import Default from "./UI-Components/Default";
 import IngredientsList from "./main/IngredientsList";
 import ExpirationCalendar from "./main/ExpirationCalendar";
+import LandingScreen from "./auth/Landing";
+import AccountScreen from "./main/Account";
 
 const Tab = createBottomTabNavigator();
 export class Main extends Component {
@@ -21,7 +23,6 @@ export class Main extends Component {
 	render() {
 		const { currentUser } = this.props;
 
-		console.log();
 		if (currentUser == undefined) {
 			return <View></View>;
 		}
@@ -33,7 +34,7 @@ export class Main extends Component {
 					component={IngredientsList}
 					options={{
 						tabBarIcon: ({ color, size }) => (
-							<MaterialCommunityIcons name="shaker" color={color} size={50} />
+							<MaterialCommunityIcons name="shaker" color={color} size={30} />
 						),
 					}}
 				/>
@@ -42,7 +43,20 @@ export class Main extends Component {
 					component={ExpirationCalendar}
 					options={{
 						tabBarIcon: ({ color, size }) => (
-							<MaterialCommunityIcons name="calendar" color={color} size={50} />
+							<MaterialCommunityIcons name="calendar" color={color} size={30} />
+						),
+					}}
+				/>
+				<Tab.Screen
+					name={"Account"}
+					children={(props) => <AccountScreen currentUser={currentUser} />}
+					options={{
+						tabBarIcon: ({ color, size }) => (
+							<MaterialCommunityIcons
+								name="account-circle"
+								color={color}
+								size={30}
+							/>
 						),
 					}}
 				/>

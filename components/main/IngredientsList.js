@@ -27,6 +27,10 @@ function IngredientsList() {
 				borderRadius={100}
 			>
 				<QStext text={"Add Ingredient"} p />
+
+				{
+					//Display Ingredient DB here
+				}
 			</MaterialCommunityIcons.Button>
 		</SafeAreaView>
 	);
