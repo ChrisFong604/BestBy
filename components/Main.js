@@ -10,10 +10,10 @@ import { fetchUser } from "../redux/actions/index";
 
 import { QStext } from "./UI-Components/QStext";
 import Default from "./UI-Components/Default";
-import IngredientsList from "./main/IngredientsList";
 import ExpirationCalendar from "./main/ExpirationCalendar";
 import LandingScreen from "./auth/Landing";
 import AccountScreen from "./main/Account";
+import IngredientStack from "./main/ingredients/IngredientsList";
 
 const Tab = createBottomTabNavigator();
 export class Main extends Component {
@@ -31,7 +31,7 @@ export class Main extends Component {
 			<Tab.Navigator>
 				<Tab.Screen
 					name="Inventory"
-					component={IngredientsList}
+					component={IngredientStack}
 					options={{
 						tabBarIcon: ({ color, size }) => (
 							<MaterialCommunityIcons name="shaker" color={color} size={30} />
