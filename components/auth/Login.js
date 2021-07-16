@@ -1,7 +1,10 @@
 import React, { Component, useState } from "react";
-import { SafeAreaView, TextInput, Button } from "react-native";
+import { View, TextInput, Button } from "react-native";
 
 import firebase from "firebase";
+
+import Default from "../UI-Components/Default";
+import { QStext } from "../UI-Components/QStext";
 
 function LoginScreen() {
 	const [email, setEmail] = useState("");
@@ -20,18 +23,20 @@ function LoginScreen() {
 	};
 
 	return (
-		<SafeAreaView>
+		<View style={Default.ViewContainer}>
+			<QStext text={"Sign in"} h2 style={{ marginTop: 50, marginBottom: 25 }} />
 			<TextInput
-				placeholder="email"
+				style={Default.Input}
+				placeholder="Email"
 				onChangeText={(email) => setEmail(email)}
-			/>
+			></TextInput>
 			<TextInput
-				placeholder="password"
-				secureTextEntry={true}
+				style={Default.Input}
+				placeholder="Password"
 				onChangeText={(password) => setPassword(password)}
-			/>
+			></TextInput>
 			<Button onPress={() => onSignIn()} title={"Sign in"} />
-		</SafeAreaView>
+		</View>
 	);
 }
 /*

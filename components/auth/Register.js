@@ -1,7 +1,10 @@
 import React, { Component, useState } from "react";
-import { SafeAreaView, TextInput, Button } from "react-native";
+import { View, TextInput, Button } from "react-native";
 
 import firebase from "firebase";
+
+import Default from "../UI-Components/Default";
+import { QStext } from "../UI-Components/QStext";
 
 function RegisterScreen() {
 	const [name, setName] = useState("");
@@ -29,19 +32,34 @@ function RegisterScreen() {
 	};
 
 	return (
-		<SafeAreaView>
-			<TextInput placeholder="name" onChangeText={(name) => setName(name)} />
+		<View style={Default.ViewContainer}>
+			<QStext
+				text={"Register"}
+				h2
+				style={{ marginTop: 50, marginBottom: 20 }}
+			/>
+			<QStext
+				text={"Making your life simpler, one ingredient at a time"}
+				p
+				style={{ marginBottom: 25 }}
+			/>
 			<TextInput
+				style={Default.Input}
+				placeholder="name"
+				onChangeText={(name) => setName(name)}
+			></TextInput>
+			<TextInput
+				style={Default.Input}
 				placeholder="email"
 				onChangeText={(email) => setEmail(email)}
-			/>
+			></TextInput>
 			<TextInput
+				style={Default.Input}
 				placeholder="password"
-				secureTextEntry={true}
 				onChangeText={(password) => setPassword(password)}
-			/>
+			></TextInput>
 			<Button onPress={() => onSignUp()} title={"Sign Up"} />
-		</SafeAreaView>
+		</View>
 	);
 }
 

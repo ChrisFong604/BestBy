@@ -55,7 +55,7 @@ export default function App() {
 	});
 	if (!loaded) {
 		return (
-			<View style={{ flex: 1, justifyContent: "center", alignSelf: "center" }}>
+			<View style={Default.ViewContainer}>
 				<Text>Loading</Text>
 			</View>
 		);
@@ -69,8 +69,16 @@ export default function App() {
 						component={LandingScreen}
 						options={{ headerShown: false }}
 					/>
-					<Stack.Screen name="Register" component={RegisterScreen} />
-					<Stack.Screen name="Login" component={LoginScreen} />
+					<Stack.Screen
+						name="Register"
+						component={RegisterScreen}
+						options={{ headerShown: false }}
+					/>
+					<Stack.Screen
+						name="Login"
+						component={LoginScreen}
+						options={{ headerShown: false }}
+					/>
 				</Stack.Navigator>
 			</NavigationContainer>
 		);
@@ -78,7 +86,15 @@ export default function App() {
 	return (
 		//When User is logged in
 		<Provider store={store}>
-			<MainScreen />
+			<NavigationContainer>
+				<Stack.Navigator initialrouteName="Main">
+					<Stack.Screen
+						name="Main"
+						component={MainScreen}
+						options={{ headerShown: false }}
+					/>
+				</Stack.Navigator>
+			</NavigationContainer>
 		</Provider>
 	);
 }

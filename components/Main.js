@@ -1,5 +1,8 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -7,7 +10,12 @@ import { fetchUser } from "../redux/actions/index";
 
 import { QStext } from "./UI-Components/QStext";
 import Default from "./UI-Components/Default";
+import ExpirationCalendar from "./main/ExpirationCalendar";
+import LandingScreen from "./auth/Landing";
+import AccountScreen from "./main/Account";
+import IngredientStack from "./main/ingredients/IngredientsList";
 
+const Tab = createBottomTabNavigator();
 export class Main extends Component {
 	componentDidMount() {
 		this.props.fetchUser();
@@ -15,18 +23,44 @@ export class Main extends Component {
 	render() {
 		const { currentUser } = this.props;
 
-		console.log();
 		if (currentUser == undefined) {
 			return <View></View>;
 		}
 
 		return (
-			<View style={Default.ViewContainer}>
-				<QStext text={currentUser.name + " is logged in"} h2 />
-				<QStext text={currentUser.name + " is logged in"} h3 />
-				<QStext text={currentUser.name + " is logged in"} h4 />
-				<QStext text={currentUser.name + " is logged in"} p />
-			</View>
+			<Tab.Navigator>
+				<Tab.Screen
+					name="Inventory"
+					component={IngredientStack}
+					options={{
+						tabBarIcon: ({ color, size }) => (
+							<MaterialCommunityIcons name="shaker" color={color} size={30} />
+						),
+					}}
+				/>
+				<Tab.Screen
+					name="Calendar"
+					component={ExpirationCalendar}
+					options={{
+						tabBarIcon: ({ color, size }) => (
+							<MaterialCommunityIcons name="calendar" color={color} size={30} />
+						),
+					}}
+				/>
+				<Tab.Screen
+					name={"Account"}
+					children={(props) => <AccountScreen currentUser={currentUser} />}
+					options={{
+						tabBarIcon: ({ color, size }) => (
+							<MaterialCommunityIcons
+								name="account-circle"
+								color={color}
+								size={30}
+							/>
+						),
+					}}
+				/>
+			</Tab.Navigator>
 		);
 	}
 }

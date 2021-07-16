@@ -3,7 +3,11 @@ import { StyleSheet } from "react-native";
 export default StyleSheet.create({
 	ViewContainer: {
 		flex: 1,
-		justifyContent: "center",
+		alignItems: "center",
+		marginTop: 20,
+	},
+	MiniContainer: {
+		flex: 1,
 		alignItems: "center",
 	},
 	BodyText: {
@@ -20,10 +24,5 @@ export default StyleSheet.create({
 		paddingLeft: 15,
 		borderWidth: 1,
 		borderRadius: 50,
-	},
-	Btn: {
-		marginHorizontal: 15,
-		color: "#000",
-		backgroundColor: "#000",
 	},
 });
