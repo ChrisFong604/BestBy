@@ -7,12 +7,20 @@ import {
   Image,
   TextInput,
 } from "react-native";
+import firebase from "firebase";
 
 import Default from "../UI-Components/Default";
 import { QStext } from "../UI-Components/QStext";
 import CustomBtn from "../UI-Components/CustomBtn";
 
 export default function LandingScreen({ navigation }) {
+  const onAnonSignIn = () => {
+    firebase
+      .auth()
+      .signInAnonymously()
+      .then((result) => console.log(result))
+      .catch((error) => console.log(error));
+  };
   return (
     <SafeAreaView style={Default.ViewContainer}>
       <View style={{ flexDirection: "row", marginTop: 50 }}>
@@ -41,7 +49,7 @@ export default function LandingScreen({ navigation }) {
           style={Default.Button}
         />
       </View>
-      <CustomBtn text={"Continue without signing in"} />
+      <CustomBtn text={"Continue without signing in"} onPress={onAnonSignIn} />
       {/*
 				<View style={{ justifyContent: "space-between" }}>
 					<QStext
