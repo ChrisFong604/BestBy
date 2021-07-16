@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { Text, View } from "react-native";
+import AnimatedEllipsis from "react-native-animated-ellipsis";
 
 import firebase from "firebase/app";
 
@@ -11,17 +12,17 @@ import thunk from "redux-thunk";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 const firebaseConfig = {
-	apiKey: "AIzaSyCeiTn_h_M0Qn142qjJt32-6tGSQixTgWw",
-	authDomain: "bestby-2a9ad.firebaseapp.com",
-	projectId: "bestby-2a9ad",
-	storageBucket: "bestby-2a9ad.appspot.com",
-	messagingSenderId: "201942630744",
-	appId: "1:201942630744:web:240677cca611bc2f0be52d",
-	measurementId: "G-VHHP35HT8D",
+  apiKey: "AIzaSyCeiTn_h_M0Qn142qjJt32-6tGSQixTgWw",
+  authDomain: "bestby-2a9ad.firebaseapp.com",
+  projectId: "bestby-2a9ad",
+  storageBucket: "bestby-2a9ad.appspot.com",
+  messagingSenderId: "201942630744",
+  appId: "1:201942630744:web:240677cca611bc2f0be52d",
+  measurementId: "G-VHHP35HT8D",
 };
 
 if (firebase.apps.length === 0) {
-	firebase.initializeApp(firebaseConfig);
+  firebase.initializeApp(firebaseConfig);
 }
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -39,62 +40,70 @@ const Stack = createStackNavigator();
 
 //Using React hooks as opposed to class in the tutorial
 export default function App() {
-	const [loaded, setLoaded] = useState(false);
-	const [loggedIn, setLoggedIn] = useState(false);
+  const [loaded, setLoaded] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
-	useEffect(() => {
-		firebase.auth().onAuthStateChanged((user) => {
-			if (!user) {
-				setLoggedIn(false);
-				setLoaded(true);
-			} else {
-				setLoggedIn(true);
-				setLoaded(true);
-			}
-		});
-	});
-	if (!loaded) {
-		return (
-			<View style={Default.ViewContainer}>
-				<Text>Loading</Text>
-			</View>
-		);
-	}
-	if (!loggedIn) {
-		return (
-			<NavigationContainer>
-				<Stack.Navigator initialrouteName="Landing">
-					<Stack.Screen
-						name="Landing"
-						component={LandingScreen}
-						options={{ headerShown: false }}
-					/>
-					<Stack.Screen
-						name="Register"
-						component={RegisterScreen}
-						options={{ headerShown: false }}
-					/>
-					<Stack.Screen
-						name="Login"
-						component={LoginScreen}
-						options={{ headerShown: false }}
-					/>
-				</Stack.Navigator>
-			</NavigationContainer>
-		);
-	}
-	return (
-		//When User is logged in
-		<Provider store={store}>
-			<NavigationContainer>
-				<Stack.Navigator initialrouteName="Main">
-					<Stack.Screen
-						name="Main"
-						component={MainScreen}
-						options={{ headerShown: false }}
-					/>
-				</Stack.Navigator>
-			</NavigationContainer>
-		</Provider>
-	);
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        setLoggedIn(false);
+        setLoaded(true);
+      } else {
+        setLoggedIn(true);
+        setLoaded(true);
+      }
+    });
+  });
+  if (!loaded) {
+    return (
+      <View
+        style={{
+          flex: 1,
+          justifyContent: "center",
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <QStext text={"Loading"} h2 />
+        <AnimatedEllipsis />
+      </View>
+    );
+  }
+  if (!loggedIn) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator initialrouteName="Landing">
+          <Stack.Screen
+            name="Landing"
+            component={LandingScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Register"
+            component={RegisterScreen}
+            options={{ headerShown: false }}
+          />
+          <Stack.Screen
+            name="Login"
+            component={LoginScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
+  return (
+    //When User is logged in
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialrouteName="Main">
+          <Stack.Screen
+            name="Main"
+            component={MainScreen}
+            options={{ headerShown: false }}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
 }
