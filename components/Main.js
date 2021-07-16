@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -21,10 +21,10 @@ export class Main extends Component {
 		this.props.fetchUser();
 	}
 	render() {
-		const { currentUser } = this.props;
-
+		let { currentUser } = this.props;
 		if (currentUser == undefined) {
-			return <View></View>;
+			currentUser = { name: "Anonymous User" };
+			console.log(currentUser.name);
 		}
 
 		return (
