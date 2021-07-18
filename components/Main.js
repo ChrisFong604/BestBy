@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View } from "react-native";
+import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
@@ -17,14 +17,15 @@ import IngredientStack from "./main/ingredients/IngredientsList";
 
 const Tab = createBottomTabNavigator();
 export class Main extends Component {
-	componentDidMount() {
+	//fetchUser does not work with Anonymous users, returns undefined 
+	componentDidMount() { 
 		this.props.fetchUser();
 	}
 	render() {
-		const { currentUser } = this.props;
-
+		let { currentUser } = this.props;
 		if (currentUser == undefined) {
-			return <View></View>;
+			currentUser = { name: "Anonymous User" };
+			console.log(currentUser.name);
 		}
 
 		return (
