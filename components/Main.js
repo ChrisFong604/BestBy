@@ -17,7 +17,8 @@ import IngredientStack from "./main/ingredients/IngredientsList";
 
 const Tab = createBottomTabNavigator();
 export class Main extends Component {
-	componentDidMount() {
+	//fetchUser does not work with Anonymous users, returns undefined 
+	componentDidMount() { 
 		this.props.fetchUser();
 	}
 	render() {
