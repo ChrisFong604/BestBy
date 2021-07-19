@@ -1,7 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { Text, View, Button } from "react-native";
-import AnimatedEllipsis from "react-native-animated-ellipsis";
 
 import firebase from "firebase/app";
 
