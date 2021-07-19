@@ -73,7 +73,7 @@ export default function App() {
 				}}
 			>
 				<QStext text={"Loading"} h2 />
-				<AnimatedEllipsis />
+				
 			</View>
 		);
 	}
