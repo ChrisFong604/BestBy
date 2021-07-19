@@ -38,6 +38,7 @@ function AddIngredient() {
 					onChange={(date) => setExpirationDate(date)}
 				></TextInput>
 			</View>
+			<Button onPress={() => navigator.navigate("IngredientsList")} title={"Cancel"} />
 		</View>
 	);
 }
