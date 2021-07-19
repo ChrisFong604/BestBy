@@ -26,6 +26,7 @@ function AddIngredient() {
 					onChange={(name) => setName(name)}
 				></TextInput>
 			</View>
+
 			<View style={{ flexDirection: "row" }}>
 				<MaterialCommunityIcons
 					name="calendar"
@@ -36,6 +37,18 @@ function AddIngredient() {
 					style={Default.Input}
 					placeholder="expiration date"
 					onChange={(date) => setExpirationDate(date)}
+				></TextInput>
+			</View>
+			<View style={{ flexDirection: "row" }}>
+				<MaterialCommunityIcons
+					name="image"
+					size={25}
+					style={{ alignSelf: "center" }}
+				/>
+				<TextInput
+					style={Default.Input}
+					placeholder="image"
+					onChange={(date) => setExpirationDate(date)} //change
 				></TextInput>
 			</View>
 			<Button onPress={() => navigator.navigate("IngredientsList")} title={"Cancel"} />

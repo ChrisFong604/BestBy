@@ -52,12 +52,7 @@ export default function App() {
 				setLoggedIn(true);
 				setLoaded(true);
 			}
-			if (user.isAnonymous || user != null) {
-				console.log("The current user is not registered");
-				setIsAnon(true);
-			} else {
-				setIsAnon(false);
-			}
+			
 		});
 	});
 
