@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { View, TextInput } from "react-native";
+import { View, TextInput, Button } from "react-native";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Default from "../../UI-Components/Default";
 import { QStext } from "../../UI-Components/QStext";
 
-function AddIngredient() {
+function AddIngredient({navigation}) {
 	const [name, setName] = useState("");
 	const [expiratonDate, setExpirationDate] = useState("");
 
@@ -51,7 +51,7 @@ function AddIngredient() {
 					onChange={(date) => setExpirationDate(date)} //change
 				></TextInput>
 			</View>
-			<Button onPress={() => navigator.navigate("IngredientsList")} title={"Cancel"} />
+			<Button onPress={() => navigation.navigate("IngredientsList")} title={"Cancel"} />
 		</View>
 	);
 }
