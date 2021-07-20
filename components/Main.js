@@ -16,6 +16,17 @@ import AccountScreen from "./main/Account";
 import IngredientStack from "./main/ingredients/IngredientsList";
 
 const Tab = createBottomTabNavigator();
+/*
+function Main() {
+	let currentUser = null;
+	useEffect(() => {
+		currentUser = fetchUser();
+	})
+
+	
+}
+*/
+
 export class Main extends Component {
 	//fetchUser does not work with Anonymous users, returns undefined 
 	componentDidMount() { 
