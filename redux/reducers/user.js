@@ -9,3 +9,9 @@ export const user = (state = initialState, action) => {
 		currentUser: action.currentUser,
 	};
 };
+
+/* 
+Create initial state 
+pass in initialState and dispatch
+wrap app in provider
+*/

@@ -21,15 +21,13 @@ function Main() {
 	let currentUser = null;
 	useEffect(() => {
 		currentUser = fetchUser();
-	})
-
-	
+	})	
 }
-*/
 
+*/
 export class Main extends Component {
-	//fetchUser does not work with Anonymous users, returns undefined 
-	componentDidMount() { 
+	//fetchUser does not work with Anonymous users, returns undefined
+	componentDidMount() {
 		this.props.fetchUser();
 	}
 	render() {
