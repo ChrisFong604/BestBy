@@ -30,6 +30,7 @@ export class Main extends Component {
 	componentDidMount() {
 		this.props.fetchUser();
 	}
+
 	render() {
 		let { currentUser } = this.props;
 		if (currentUser == undefined) {
