@@ -1,6 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { Text, View, Button } from "react-native";
+import AnimatedEllipsis from "react-native-animated-ellipsis";
 
 import firebase from "firebase/app";
 
@@ -52,6 +53,12 @@ export default function App() {
 				setLoggedIn(true);
 				setLoaded(true);
 			}
+			if (user.isAnonymous == true) {
+				console.log("The current user is not registered");
+				setIsAnon(true);
+			} else {
+				setIsAnon(false);
+			}
 		});
 	});
 
@@ -66,6 +73,7 @@ export default function App() {
 				}}
 			>
 				<QStext text={"Loading"} h2 />
+				<AnimatedEllipsis />
 			</View>
 		);
 	}
