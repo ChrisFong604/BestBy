@@ -42,7 +42,11 @@ function Main() {
 			<Tab.Screen
 				name={"Account"}
 				children={() => (
-					<AccountScreen username={user.displayName} useremail={user.email} />
+					<AccountScreen
+						username={user.displayName}
+						useremail={user.email}
+						isAnon={user.isAnonymous}
+					/>
 				)}
 				options={{
 					tabBarIcon: ({ color, size }) => (

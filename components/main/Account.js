@@ -6,7 +6,8 @@ import firebase from "firebase";
 
 import { QStext } from "../UI-Components/QStext";
 
-function AccountScreen({ username, useremail, navigation }) {
+function AccountScreen({ username, useremail, isAnon, navigation }) {
+	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -19,7 +20,15 @@ function AccountScreen({ username, useremail, navigation }) {
 			.currentUser.linkWithCredential(credential)
 			.then((usercred) => {
 				var user = usercred.user;
-				console.log("Anonymous account successfully upgraded", user);
+				firebase
+					.firestore()
+					.collection("users")
+					.doc(firebase.auth().currentUser.uid)
+					.set({
+						name,
+						email,
+						password,
+					});
 			})
 			.catch((error) => {
 				console.log("Error upgrading anonymous account", error);
@@ -28,42 +37,65 @@ function AccountScreen({ username, useremail, navigation }) {
 	}
 
 	const onSignOut = () => {
-		firebase
-			.auth()
-			.signOut()
-			.then((result) => {
-				console.log(result);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-		//navigation.navigate("Home");
+		if (isAnon == true) {
+			firebase
+				.auth()
+				.signOut()
+				.then()
+				.catch((error) => {
+					console.log(error);
+				});
+		} else {
+			firebase
+				.auth()
+				.signOut()
+				.then()
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	};
 
-	return (
-		<View style={Default.ViewContainer}>
-			<QStext text={"Context test: " + username} p />
-			<QStext text={"Context text: " + useremail} p />
+	if (isAnon) {
+		return (
 			<View style={Default.ViewContainer}>
-				<QStext text={"Register your account!"} h4 />
-				<TextInput
-					style={Default.Input}
-					placeholder="email"
-					onChangeText={(email) => setEmail(email)}
-				></TextInput>
-				<TextInput
-					style={Default.Input}
-					placeholder="password"
-					onChangeText={(password) => setPassword(password)}
-				></TextInput>
-				<Button
-					onPress={() => anonymousLink()}
-					title={"Register your account"}
-				/>
+				<QStext text={"Currently signed in anonymously"} h3 />
+				<View style={Default.ViewContainer}>
+					<QStext text={"Register your account!"} h4 />
+					<TextInput
+						style={Default.Input}
+						placeholder="name"
+						onChangeText={(name) => setName(name)}
+					></TextInput>
+					<TextInput
+						style={Default.Input}
+						placeholder="email"
+						onChangeText={(email) => setEmail(email)}
+					></TextInput>
+					<TextInput
+						style={Default.Input}
+						placeholder="password"
+						onChangeText={(password) => setPassword(password)}
+					></TextInput>
+					<Button
+						onPress={() => anonymousLink()}
+						title={"Register your account"}
+					/>
+				</View>
+				<Button onPress={() => onSignOut()} title={"Sign Out"} />
 			</View>
-			<Button onPress={() => onSignOut()} title={"Sign Out"} />
-		</View>
-	);
+		);
+	} else {
+		return (
+			<View style={Default.ViewContainer}>
+				<View style={{ flexDirection: "row" }}>
+					<QStext text={"Signed in as "} p />
+					<QStext text={useremail} h3 />
+				</View>
+				<Button onPress={() => onSignOut()} title={"Sign Out"} />
+			</View>
+		);
+	}
 	/*
 	return (
 		//Fully authenticated user
