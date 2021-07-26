@@ -5,11 +5,15 @@ import AnimatedEllipsis from "react-native-animated-ellipsis";
 
 import firebase from "firebase/app";
 
-import { UserContext } from "./context/temp";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./redux/reducers";
 import thunk from "redux-thunk";
+
+import {
+	FirebaseAuthProvider,
+	useFireBaseAuth,
+} from "./context/FirebaseAuthContext";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 const firebaseConfig = {
@@ -57,7 +61,6 @@ export default function App() {
 				setLoaded(true);
 			}
 			if (user.isAnonymous) {
-				console.log("The current user is not registered");
 				setIsAnon(true);
 			} else {
 				setIsAnon(false);
@@ -106,7 +109,7 @@ export default function App() {
 
 	return (
 		//When User is logged in
-		<UserContext.Provider value={{ userVal, setUserVal }}>
+		<FirebaseAuthProvider user={() => useFireBaseAuth()}>
 			<Provider store={store}>
 				<NavigationContainer>
 					<Stack.Navigator initialrouteName="Main">
@@ -118,6 +121,6 @@ export default function App() {
 					</Stack.Navigator>
 				</NavigationContainer>
 			</Provider>
-		</UserContext.Provider>
+		</FirebaseAuthProvider>
 	);
 }

@@ -42,7 +42,6 @@ function AddIngredient() {
 	return (
 		<View style={Default.ViewContainer}>
 			<QStext text={"Add Ingredient"} h3 />
-
 			<View style={{ flexDirection: "row" }}>
 				<MaterialCommunityIcons
 					name="food-apple"
