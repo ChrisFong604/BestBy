@@ -2,17 +2,14 @@ import React, { Component, useContext, useEffect, useState } from "react";
 import { View, TextInput, Button } from "react-native";
 import Default from "../UI-Components/Default";
 
-import { fetchUser } from "../../redux/actions";
 import firebase from "firebase";
 
 import { QStext } from "../UI-Components/QStext";
-import { UserContext } from "../../context/temp";
 
-function AccountScreen({ currentUser, navigation }) {
+function AccountScreen({ username, useremail, isAnon, navigation }) {
+	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
-
-	const { userVal, setUserVal } = useContext(UserContext);
 
 	var credential = firebase.auth.EmailAuthProvider.credential(email, password);
 
@@ -23,38 +20,53 @@ function AccountScreen({ currentUser, navigation }) {
 			.currentUser.linkWithCredential(credential)
 			.then((usercred) => {
 				var user = usercred.user;
-				console.log("Anonymous account successfully upgraded", user);
+				firebase
+					.firestore()
+					.collection("users")
+					.doc(firebase.auth().currentUser.uid)
+					.set({
+						name,
+						email,
+						password,
+					});
 			})
 			.catch((error) => {
 				console.log("Error upgrading anonymous account", error);
 			});
 		// [END auth_anonymous_link]
 	}
+
 	const onSignOut = () => {
-		firebase
-			.auth()
-			.signOut()
-			.then((result) => {
-				console.log(result);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-		//navigation.navigate("Home");
+		if (isAnon == true) {
+			firebase
+				.auth()
+				.signOut()
+				.then()
+				.catch((error) => {
+					console.log(error);
+				});
+		} else {
+			firebase
+				.auth()
+				.signOut()
+				.then()
+				.catch((error) => {
+					console.log(error);
+				});
+		}
 	};
 
-	if (currentUser.name == "Anonymous User") {
+	if (isAnon) {
 		return (
 			<View style={Default.ViewContainer}>
-				<QStext text={userVal} h3 />
-				<Button
-					onPress={() => setUserVal("Context object here")}
-					title={"user val"}
-				/>
-				<QStext text={"Currently signed in as"} h2 />
-				<QStext text={currentUser.name} h1 />
+				<QStext text={"Currently signed in anonymously"} h3 />
 				<View style={Default.ViewContainer}>
 					<QStext text={"Register your account!"} h4 />
+					<TextInput
+						style={Default.Input}
+						placeholder="name"
+						onChangeText={(name) => setName(name)}
+					></TextInput>
 					<TextInput
 						style={Default.Input}
 						placeholder="email"
@@ -73,8 +85,18 @@ function AccountScreen({ currentUser, navigation }) {
 				<Button onPress={() => onSignOut()} title={"Sign Out"} />
 			</View>
 		);
+	} else {
+		return (
+			<View style={Default.ViewContainer}>
+				<View style={{ flexDirection: "row" }}>
+					<QStext text={"Signed in as "} p />
+					<QStext text={useremail} h3 />
+				</View>
+				<Button onPress={() => onSignOut()} title={"Sign Out"} />
+			</View>
+		);
 	}
-
+	/*
 	return (
 		//Fully authenticated user
 		<View style={Default.ViewContainer}>
@@ -83,6 +105,7 @@ function AccountScreen({ currentUser, navigation }) {
 			<Button onPress={() => onSignOut()} title={"Sign Out"} />
 		</View>
 	);
+	*/
 }
 
 export default AccountScreen;
