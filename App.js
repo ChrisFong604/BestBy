@@ -5,13 +5,8 @@ import AnimatedEllipsis from "react-native-animated-ellipsis";
 
 import firebase from "firebase/app";
 
-import { UserContext } from "./context/temp";
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import rootReducer from "./redux/reducers";
-import thunk from "redux-thunk";
+import { AuthProvider } from "./context/UserContext";
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
 const firebaseConfig = {
 	apiKey: "AIzaSyCeiTn_h_M0Qn142qjJt32-6tGSQixTgWw",
 	authDomain: "bestby-2a9ad.firebaseapp.com",
@@ -45,8 +40,6 @@ export default function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [isAnon, setIsAnon] = useState(false);
 
-	const [userVal, setUserVal] = useState("user object here!");
-
 	useEffect(() => {
 		firebase.auth().onAuthStateChanged((user) => {
 			if (!user) {
@@ -55,12 +48,6 @@ export default function App() {
 			} else {
 				setLoggedIn(true);
 				setLoaded(true);
-			}
-			if (user.isAnonymous) {
-				console.log("The current user is not registered");
-				setIsAnon(true);
-			} else {
-				setIsAnon(false);
 			}
 		});
 	});
@@ -106,18 +93,16 @@ export default function App() {
 
 	return (
 		//When User is logged in
-		<UserContext.Provider value={{ userVal, setUserVal }}>
-			<Provider store={store}>
-				<NavigationContainer>
-					<Stack.Navigator initialrouteName="Main">
-						<Stack.Screen
-							name="Main"
-							component={MainScreen}
-							options={{ headerShown: false }}
-						/>
-					</Stack.Navigator>
-				</NavigationContainer>
-			</Provider>
-		</UserContext.Provider>
+		<AuthProvider>
+			<NavigationContainer>
+				<Stack.Navigator initialrouteName="Main">
+					<Stack.Screen
+						name="Main"
+						component={MainScreen}
+						options={{ headerShown: false }}
+					/>
+				</Stack.Navigator>
+			</NavigationContainer>
+		</AuthProvider>
 	);
 }
