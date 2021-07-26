@@ -26,12 +26,14 @@ function Main() {
 
 */
 
-function Main() {
+function Main({ user }) {
 	const [user, setUser] = useState(null);
+	const [contextUser, setContextUser] = useState(null);
 
 	useEffect(() => {
 		setUser(fetchUser());
-	}, []);
+		setContextUser(user);
+	});
 
 	return (
 		<Tab.Navigator>
