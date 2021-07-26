@@ -6,10 +6,13 @@ import { fetchUser } from "../../redux/actions";
 import firebase from "firebase";
 
 import { QStext } from "../UI-Components/QStext";
+import { UserContext } from "../../context/temp";
 
-function AccountScreen({ user, navigation }) {
+function AccountScreen({ currentUser, navigation }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const { userVal, setUserVal } = useContext(UserContext);
 
 	var credential = firebase.auth.EmailAuthProvider.credential(email, password);
 
@@ -17,7 +20,7 @@ function AccountScreen({ user, navigation }) {
 		// [START auth_anonymous_link]
 		firebase
 			.auth()
-			.user.linkWithCredential(credential)
+			.currentUser.linkWithCredential(credential)
 			.then((usercred) => {
 				var user = usercred.user;
 				console.log("Anonymous account successfully upgraded", user);
@@ -40,9 +43,14 @@ function AccountScreen({ user, navigation }) {
 		//navigation.navigate("Home");
 	};
 
-	if (user.name == "Anonymous User") {
+	if (currentUser.name == "Anonymous User") {
 		return (
 			<View style={Default.ViewContainer}>
+				<QStext text={userVal} h3 />
+				<Button
+					onPress={() => setUserVal("Context object here")}
+					title={"user val"}
+				/>
 				<QStext text={"Currently signed in as"} h2 />
 				<QStext text={currentUser.name} h1 />
 				<View style={Default.ViewContainer}>
@@ -71,7 +79,7 @@ function AccountScreen({ user, navigation }) {
 		//Fully authenticated user
 		<View style={Default.ViewContainer}>
 			<QStext text={"Currently signed in as"} h2 />
-			<QStext text={user.name} h1 />
+			<QStext text={currentUser.name} h1 />
 			<Button onPress={() => onSignOut()} title={"Sign Out"} />
 		</View>
 	);

@@ -1,4 +1,4 @@
-import React, { Component, useState, useEffect } from "react";
+import React, { Component } from "react";
 import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -25,52 +25,6 @@ function Main() {
 }
 
 */
-
-function Main() {
-	const [user, setUser] = useState(null);
-
-	useEffect(() => {
-		setUser(fetchUser());
-	}, []);
-
-	return (
-		<Tab.Navigator>
-			<Tab.Screen
-				name="Inventory"
-				component={IngredientStack}
-				options={{
-					tabBarIcon: ({ color, size }) => (
-						<MaterialCommunityIcons name="shaker" color={color} size={30} />
-					),
-				}}
-			/>
-			<Tab.Screen
-				name="Calendar"
-				component={ExpirationCalendar}
-				options={{
-					tabBarIcon: ({ color, size }) => (
-						<MaterialCommunityIcons name="calendar" color={color} size={30} />
-					),
-				}}
-			/>
-			<Tab.Screen
-				name={"Account"}
-				children={() => <AccountScreen user={user} />}
-				options={{
-					tabBarIcon: ({ color, size }) => (
-						<MaterialCommunityIcons
-							name="account-circle"
-							color={color}
-							size={30}
-						/>
-					),
-				}}
-			/>
-		</Tab.Navigator>
-	);
-}
-
-/*
 export class Main extends Component {
 	//fetchUser does not work with Anonymous users, returns undefined
 	componentDidMount() {
@@ -78,6 +32,12 @@ export class Main extends Component {
 	}
 
 	render() {
+		let { currentUser } = this.props;
+		if (currentUser == undefined) {
+			currentUser = { name: "Anonymous User" };
+			console.log(currentUser.name);
+		}
+
 		return (
 			<Tab.Navigator>
 				<Tab.Screen
@@ -115,7 +75,7 @@ export class Main extends Component {
 		);
 	}
 }
-*/
+
 const mapStateToProps = (store) => ({
 	currentUser: store.userState.currentUser,
 });
