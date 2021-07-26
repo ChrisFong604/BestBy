@@ -1,10 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { Text, View, Button } from "react-native";
 import AnimatedEllipsis from "react-native-animated-ellipsis";
 
 import firebase from "firebase/app";
 
+import { UserContext } from "./context/temp";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import rootReducer from "./redux/reducers";
@@ -44,6 +45,8 @@ export default function App() {
 	const [loggedIn, setLoggedIn] = useState(false);
 	const [isAnon, setIsAnon] = useState(false);
 
+	const [userVal, setUserVal] = useState("user object here!");
+
 	useEffect(() => {
 		firebase.auth().onAuthStateChanged((user) => {
 			if (!user) {
@@ -53,7 +56,7 @@ export default function App() {
 				setLoggedIn(true);
 				setLoaded(true);
 			}
-			if (user.isAnonymous || user != null) {
+			if (user.isAnonymous) {
 				console.log("The current user is not registered");
 				setIsAnon(true);
 			} else {
@@ -103,16 +106,18 @@ export default function App() {
 
 	return (
 		//When User is logged in
-		<Provider store={store}>
-			<NavigationContainer>
-				<Stack.Navigator initialrouteName="Main">
-					<Stack.Screen
-						name="Main"
-						component={MainScreen}
-						options={{ headerShown: false }}
-					/>
-				</Stack.Navigator>
-			</NavigationContainer>
-		</Provider>
+		<UserContext.Provider value={{ userVal, setUserVal }}>
+			<Provider store={store}>
+				<NavigationContainer>
+					<Stack.Navigator initialrouteName="Main">
+						<Stack.Screen
+							name="Main"
+							component={MainScreen}
+							options={{ headerShown: false }}
+						/>
+					</Stack.Navigator>
+				</NavigationContainer>
+			</Provider>
+		</UserContext.Provider>
 	);
 }

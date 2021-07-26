@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import React, { Component, useContext, useEffect, useState } from "react";
 import { View, TextInput, Button } from "react-native";
 import Default from "../UI-Components/Default";
 
@@ -6,10 +6,13 @@ import { fetchUser } from "../../redux/actions";
 import firebase from "firebase";
 
 import { QStext } from "../UI-Components/QStext";
+import { UserContext } from "../../context/temp";
 
 function AccountScreen({ currentUser, navigation }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+
+	const { userVal, setUserVal } = useContext(UserContext);
 
 	var credential = firebase.auth.EmailAuthProvider.credential(email, password);
 
@@ -43,6 +46,11 @@ function AccountScreen({ currentUser, navigation }) {
 	if (currentUser.name == "Anonymous User") {
 		return (
 			<View style={Default.ViewContainer}>
+				<QStext text={userVal} h3 />
+				<Button
+					onPress={() => setUserVal("Context object here")}
+					title={"user val"}
+				/>
 				<QStext text={"Currently signed in as"} h2 />
 				<QStext text={currentUser.name} h1 />
 				<View style={Default.ViewContainer}>
@@ -68,6 +76,7 @@ function AccountScreen({ currentUser, navigation }) {
 	}
 
 	return (
+		//Fully authenticated user
 		<View style={Default.ViewContainer}>
 			<QStext text={"Currently signed in as"} h2 />
 			<QStext text={currentUser.name} h1 />
