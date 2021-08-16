@@ -1,16 +1,11 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { Text, View, Button } from "react-native";
-import AnimatedEllipsis from "react-native-animated-ellipsis";
 
 import firebase from "firebase/app";
 
-import { Provider } from "react-redux";
-import { createStore, applyMiddleware } from "redux";
-import rootReducer from "./redux/reducers";
-import thunk from "redux-thunk";
+import { AuthProvider } from "./context/UserContext";
 
-const store = createStore(rootReducer, applyMiddleware(thunk));
 const firebaseConfig = {
 	apiKey: "AIzaSyCeiTn_h_M0Qn142qjJt32-6tGSQixTgWw",
 	authDomain: "bestby-2a9ad.firebaseapp.com",
@@ -53,12 +48,6 @@ export default function App() {
 				setLoggedIn(true);
 				setLoaded(true);
 			}
-			if (user.isAnonymous || user != null) {
-				console.log("The current user is not registered");
-				setIsAnon(true);
-			} else {
-				setIsAnon(false);
-			}
 		});
 	});
 
@@ -73,7 +62,6 @@ export default function App() {
 				}}
 			>
 				<QStext text={"Loading"} h2 />
-				<AnimatedEllipsis />
 			</View>
 		);
 	}
@@ -103,7 +91,7 @@ export default function App() {
 
 	return (
 		//When User is logged in
-		<Provider store={store}>
+		<AuthProvider>
 			<NavigationContainer>
 				<Stack.Navigator initialrouteName="Main">
 					<Stack.Screen
@@ -113,6 +101,6 @@ export default function App() {
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>
-		</Provider>
+		</AuthProvider>
 	);
 }
