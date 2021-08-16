@@ -1,14 +1,16 @@
 import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity } from "react-native";
+import { View, TextInput, TouchableOpacity, Button } from "react-native";
+import firebase from "firebase";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Default from "../../UI-Components/Default";
 import { QStext } from "../../UI-Components/QStext";
 
-function AddIngredient() {
+function AddIngredient({ navigation }) {
 	const [name, setName] = useState("");
 	const [expiratonDate, setExpirationDate] = useState("");
+	const [foodGroup, setFoodGroup] = useState("");
 
 	const cameraLaunch = () => {
 		let options = {
@@ -39,6 +41,22 @@ function AddIngredient() {
 		});
 	};
 
+	const submitIngredientHandler = () => {
+		firebase
+			.firestore()
+			.collection("ingredients")
+			.doc()
+			.set({
+				name: name,
+				"expiry-date": expiratonDate,
+				"food-group": foodGroup,
+			})
+			.then((res) => {
+				console.log("Added to collection " + res);
+				navigation.navigate("IngredientsList");
+			});
+	};
+
 	return (
 		<View style={Default.ViewContainer}>
 			<QStext text={"Add Ingredient"} h3 />
@@ -52,7 +70,7 @@ function AddIngredient() {
 				<TextInput
 					style={Default.Input}
 					placeholder="name"
-					onChange={(name) => setName(name)}
+					onChangeText={(name) => setName(name)}
 				></TextInput>
 			</View>
 			<View style={{ flexDirection: "row" }}>
@@ -64,7 +82,19 @@ function AddIngredient() {
 				<TextInput
 					style={Default.Input}
 					placeholder="expiration date"
-					onChange={(date) => setExpirationDate(date)}
+					onChangeText={(date) => setExpirationDate(date)}
+				></TextInput>
+			</View>
+			<View style={{ flexDirection: "row" }}>
+				<MaterialCommunityIcons
+					name="food"
+					size={25}
+					style={{ alignSelf: "center" }}
+				/>
+				<TextInput
+					style={Default.Input}
+					placeholder="food group"
+					onChangeText={(foodgroup) => setFoodGroup(foodgroup)}
 				></TextInput>
 			</View>
 			<View style={{ flexDirection: "row" }}>
@@ -77,6 +107,7 @@ function AddIngredient() {
 					<QStext text={"Launch Camera"} p style={{ alignSelf: "center" }} />
 				</TouchableOpacity>
 			</View>
+			<Button title={"Add"} onPress={() => submitIngredientHandler()} />
 		</View>
 	);
 }
