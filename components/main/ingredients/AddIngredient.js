@@ -108,8 +108,13 @@ function AddIngredient({ navigation }) {
 				</TouchableOpacity>
 			</View>
 			<Button title={"Add"} onPress={() => submitIngredientHandler()} />
+
+			<Button onPress={() => navigation.navigate("IngredientsList")} title={"Cancel"} />
+
 		</View>
 	);
+
 }
+
 
 export default AddIngredient;
