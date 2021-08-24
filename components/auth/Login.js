@@ -6,8 +6,7 @@ import firebase from "firebase";
 import Default from "../UI-Components/Default";
 import { QStext } from "../UI-Components/QStext";
 
-function LoginScreen({navigation}) {
-
+function LoginScreen({ navigation }) {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -37,7 +36,7 @@ function LoginScreen({navigation}) {
 				onChangeText={(password) => setPassword(password)}
 			></TextInput>
 			<Button onPress={() => onSignIn()} title={"Sign in"} />
-			<Button onPress = {() => navigation.navigate("Landing")} title ={"Back"}/>
+			<Button onPress={() => navigation.navigate("Landing")} title={"Cancel"} />
 		</View>
 	);
 

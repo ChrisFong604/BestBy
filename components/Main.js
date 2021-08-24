@@ -23,7 +23,13 @@ function Main() {
 		<Tab.Navigator>
 			<Tab.Screen
 				name="Inventory"
-				component={IngredientStack}
+				children={() => (
+					<IngredientStack 
+						username={user.displayName}
+						useremail={user.email}
+					/>
+				)}
+				
 				options={{
 					tabBarIcon: ({ color, size }) => (
 						<MaterialCommunityIcons name="shaker" color={color} size={30} />

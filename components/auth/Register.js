@@ -6,7 +6,7 @@ import firebase from "firebase";
 import Default from "../UI-Components/Default";
 import { QStext } from "../UI-Components/QStext";
 
-function RegisterScreen({navigation}) {
+function RegisterScreen({ navigation }) {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -24,6 +24,7 @@ function RegisterScreen({navigation}) {
 						name,
 						email,
 						password,
+						inventory: [],
 					});
 				console.log(result);
 			})
@@ -60,7 +61,7 @@ function RegisterScreen({navigation}) {
 				onChangeText={(password) => setPassword(password)}
 			></TextInput>
 			<Button onPress={() => onSignUp()} title={"Sign Up"} />
-			<Button onPress = {() => navigation.navigate("Landing")} title ={"Back"}/>
+			<Button onPress={() => navigation.navigate("Landing")} title={"Cancel"} />
 		</View>
 	);
 }
