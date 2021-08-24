@@ -23,6 +23,7 @@ function RegisterScreen({navigation}) {
 					.set({
 						name,
 						email,
+						password,
 					});
 				console.log(result);
 			})
