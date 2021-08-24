@@ -91,6 +91,7 @@ function AccountScreen({ username, useremail, isAnon, navigation }) {
 				<View style={{ flexDirection: "row" }}>
 					<QStext text={"Signed in as "} p />
 					<QStext text={useremail} h3 />
+					<QStext text={"Hello, " + username} h1 />
 				</View>
 				<Button onPress={() => onSignOut()} title={"Sign Out"} />
 			</View>

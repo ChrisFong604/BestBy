@@ -24,12 +24,8 @@ function Main() {
 			<Tab.Screen
 				name="Inventory"
 				children={() => (
-					<IngredientStack 
-						username={user.displayName}
-						useremail={user.email}
-					/>
+					<IngredientStack username={"Jimbo"} useremail={"Jimbo@gmgmg.com"} />
 				)}
-				
 				options={{
 					tabBarIcon: ({ color, size }) => (
 						<MaterialCommunityIcons name="shaker" color={color} size={30} />
@@ -49,7 +45,7 @@ function Main() {
 				name={"Account"}
 				children={() => (
 					<AccountScreen
-						username={user.displayName}
+						username={user.name}
 						useremail={user.email}
 						isAnon={user.isAnonymous}
 					/>
