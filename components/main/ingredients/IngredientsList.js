@@ -10,93 +10,34 @@ import Ingredient from "./Ingredient";
 import AddIngredient from "./AddIngredient";
 //import db from "../FireBase";
 import firebase from "firebase";
+import { data } from "browserslist";
 
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
 function IngredientsListScreen({ navigation }) {
 	const [userInfo, setUserInfo] = useState(null);
 
-	window.addEventListener("load", () => {
-		fetchUserInfo();
-	});
-
-	const fetchUserInfo = async () => {
-		const data = await firebase
-			.firestore()
-			.collection("users")
-			.doc(firebase.auth().currentUser.uid)
-			.get()
-
-			.then((res) => setUserInfo(res.data()))
-			.then(console.log(userInfo));
-	};
-
-	const [data, setData] = useState({
-		email: "Jacob@gmail.com",
-		name: "Jacob",
-
-		inventory: [
-			{
-				name: "apple",
-				expirydate: "2021-07-21",
-				foodgroup: "fruits",
-				id: "123",
-			},
-			{
-				name: "orange",
-				expirydate: "2021-07-21",
-				foodgroup: "fruits",
-				id: "1234",
-			},
-			{
-				name: "aaa",
-
-				id: "12345",
-			},
-		],
-	});
-
 	useEffect(() => {
-		setUserInfo(fetchUserInfo());
-		console.log(userInfo);
-		firebase
-			.firestore()
-			.collection("users")
-			.get()
-			.then((snapshot) => {
-				const userdata = [];
-				snapshot.forEach((doc) => {
-					// doc.data() is never undefined for query doc snapshots
-					console.log(doc.data());
-					//temp.push()
-					userdata.push(doc.data());
-				});
-				console.log(userdata);
-				setData({ inventory: userdata });
-			})
-			.catch((error) => console.log("error"));
-		console.log(data);
-	}, []);
+		const fetchData = async () => {
+			const db = await firebase.firestore();
+			const data = await db
+				.collection("users")
+				.doc(firebase.auth().currentUser.uid)
+				.get()
+				.then((doc) => {
+					if (doc.exists) {
+						console.log("Document Data: " + doc.data().name);
+						setUserInfo(doc.data());
+					} else {
+						console.log("No such document");
+						setUserInfo();
+					}
+				})
+				.catch((error) => console.log("error retrieving document"));
+		};
+
+		fetchData();
+	}, [setUserInfo]);
 	//Get all user data
-
-	/*
-		{
-			email: "bob@gmail.com",
-			name: "bob wazowski",
-
-			inventory: [
-				{
-					"name": "apple",
-					"expiry-date": "2021-07-21",
-					"food-group": "fruits"
-				},
-				{
-					"name": "orange",
-					"expiry-date": "2021-07-21",
-					"food-group": "fruits"
-				}
-			]
-		}
-	*/
 
 	return (
 		<SafeAreaView style={Default.ViewContainer}>
@@ -120,12 +61,8 @@ function IngredientsListScreen({ navigation }) {
 			>
 				<QStext text={"Add Ingredient"} p />
 			</MaterialCommunityIcons.Button>
-			<View>
-				{data.inventory.map((ingredient) => (
-					<Ingredient key={ingredient.name} Ingredient={ingredient} />
-				))}
-			</View>
 
+			<Text></Text>
 			{
 				//Display Ingredient DB here
 			}
