@@ -6,7 +6,6 @@ export const AuthContext = createContext();
 export const Provider = ({ children }) => {
 	
 	const [user, setUser] = useState(null);
-	const [userInfo, setUserInfo] = useState();
 
 	useEffect(() => {
 		firebase.auth().onAuthStateChanged(setUser);
@@ -18,6 +17,6 @@ export const Provider = ({ children }) => {
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ user, userInfo }}>{children}</AuthContext.Provider>
+		<AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
 	);
 };

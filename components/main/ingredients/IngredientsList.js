@@ -8,37 +8,40 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import Ingredient from "./Ingredient";
 import AddIngredient from "./AddIngredient";
-//import db from "../FireBase";
+
 import firebase from "firebase";
+import { db } from "../../../firebase";
 import { data } from "browserslist";
 
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
 function IngredientsListScreen({ navigation }) {
-	const [userInfo, setUserInfo] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const [userInfo, setUserInfo] = useState();
 
 	useEffect(() => {
 		const fetchData = async () => {
-			const db = await firebase.firestore();
-			const data = await db
-				.collection("users")
-				.doc(firebase.auth().currentUser.uid)
-				.get()
-				.then((doc) => {
-					if (doc.exists) {
-						console.log("Document Data: " + doc.data().name);
-						setUserInfo(doc.data());
-					} else {
-						console.log("No such document");
-						setUserInfo();
-					}
-				})
-				.catch((error) => console.log("error retrieving document"));
+			const ref = db.collection("users");
+			const doc = await ref.doc(firebase.auth().currentUser.uid).get();
+			setUserInfo(doc.data());
+			setLoading(false);
 		};
-
 		fetchData();
-	}, [setUserInfo]);
+	}, []);
 	//Get all user data
-
+	if (loading) {
+		return (
+			<View
+				style={{
+					flex: 1,
+					justifyContent: "center",
+					flexDirection: "row",
+					alignItems: "center",
+				}}
+			>
+				<QStext text={"Loading"} h2 />
+			</View>
+		);
+	}
 	return (
 		<SafeAreaView style={Default.ViewContainer}>
 			<View style={{ flexDirection: "row" }}>
@@ -62,7 +65,8 @@ function IngredientsListScreen({ navigation }) {
 				<QStext text={"Add Ingredient"} p />
 			</MaterialCommunityIcons.Button>
 
-			<Text></Text>
+			<Text>{userInfo.name}</Text>
+			<Text>{userInfo.email}</Text>
 			{
 				//Display Ingredient DB here
 			}
