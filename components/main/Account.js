@@ -6,7 +6,7 @@ import firebase from "firebase";
 
 import { QStext } from "../UI-Components/QStext";
 
-function AccountScreen({ username, useremail, isAnon, navigation }) {
+function AccountScreen({ useremail, isAnon }) {
 	const [name, setName] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
@@ -41,7 +41,6 @@ function AccountScreen({ username, useremail, isAnon, navigation }) {
 			firebase
 				.auth()
 				.signOut()
-				.then()
 				.catch((error) => {
 					console.log(error);
 				});
@@ -49,7 +48,6 @@ function AccountScreen({ username, useremail, isAnon, navigation }) {
 			firebase
 				.auth()
 				.signOut()
-				.then()
 				.catch((error) => {
 					console.log(error);
 				});

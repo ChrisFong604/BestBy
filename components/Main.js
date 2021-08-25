@@ -17,13 +17,13 @@ import { QStext } from "./UI-Components/QStext";
 const Tab = createBottomTabNavigator();
 
 function Main() {
-	const { user } = useContext(AuthContext);
+	const { user, userInfo } = useContext(AuthContext);
 
 	return (
 		<Tab.Navigator>
 			<Tab.Screen
 				name="Inventory"
-				component={IngredientStack}
+				children={() => <IngredientStack userInfo={userInfo} />}
 				options={{
 					tabBarIcon: ({ color, size }) => (
 						<MaterialCommunityIcons name="shaker" color={color} size={30} />
@@ -43,7 +43,7 @@ function Main() {
 				name={"Account"}
 				children={() => (
 					<AccountScreen
-						username={user.displayName}
+						username={user.name}
 						useremail={user.email}
 						isAnon={user.isAnonymous}
 					/>

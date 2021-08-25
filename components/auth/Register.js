@@ -24,6 +24,7 @@ function RegisterScreen({ navigation }) {
 						name,
 						email,
 						password,
+						inventory: [],
 					});
 				console.log(result);
 			})
