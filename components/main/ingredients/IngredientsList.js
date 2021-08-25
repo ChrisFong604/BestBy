@@ -11,8 +11,25 @@ import AddIngredient from "./AddIngredient";
 //import db from "../FireBase";
 import firebase from "firebase";
 
+
+const fetchUserInfo = () => {
+	let info = [];
+
+	firebase.firestore().collection("users").get().then((snapshot) => {
+		snapshot.forEach((doc) => {
+			// doc.data() is never undefined for query doc snapshots
+			info.push(doc.data())
+			//temp.push()
+		}
+	);
+	})
+
+	return info;
+}
+
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
-function IngredientsListScreen({ userInfo, navigation }) {
+function IngredientsListScreen({ navigation }) {
+	const [userInfo, setUserinfo] = useState(fetchUserInfo());
 	const [data, setData] = useState({
 		email: "Jacob@gmail.com",
 		name: "Jacob",
@@ -37,6 +54,9 @@ function IngredientsListScreen({ userInfo, navigation }) {
 			},
 		],
 	});
+	
+	console.log("userinfo")
+	console.log(userInfo);
 
 	useEffect(() => {
 		firebase

@@ -23,7 +23,8 @@ function Main() {
 		<Tab.Navigator>
 			<Tab.Screen
 				name="Inventory"
-				children={() => <IngredientStack userInfo={userInfo} />}
+				children={() => <IngredientStack
+				/>}
 				options={{
 					tabBarIcon: ({ color, size }) => (
 						<MaterialCommunityIcons name="shaker" color={color} size={30} />
@@ -43,7 +44,6 @@ function Main() {
 				name={"Account"}
 				children={() => (
 					<AccountScreen
-						username={user.name}
 						useremail={user.email}
 						isAnon={user.isAnonymous}
 					/>

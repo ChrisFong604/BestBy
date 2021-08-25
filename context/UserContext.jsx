@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 				//temp.push()
 			}
 		);
-		console.log(userInfo)
+		console.log("userInfo" + userInfo)
 		})
 		/*
         setUserInfo(firebase.firestore().collection("users").get(user));
