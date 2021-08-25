@@ -3,25 +3,13 @@ import firebase from "firebase/app";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
+export const Provider = ({ children }) => {
 	
 	const [user, setUser] = useState(null);
-	const [userInfo, setUserInfo] = useState(fetchUserInfo());
+	const [userInfo, setUserInfo] = useState();
 
 	useEffect(() => {
 		firebase.auth().onAuthStateChanged(setUser);
-
-		let info = [];
-
-		firebase.firestore().collection("users").get().then((snapshot) => {
-			snapshot.forEach((doc) => {
-				// doc.data() is never undefined for query doc snapshots
-				info.push(doc.data())
-				//temp.push()
-			}
-		);
-		console.log(userInfo)
-		})
 		/*
         setUserInfo(firebase.firestore().collection("users").get(user));
         console.log(user);
@@ -33,19 +21,3 @@ export const AuthProvider = ({ children }) => {
 		<AuthContext.Provider value={{ user, userInfo }}>{children}</AuthContext.Provider>
 	);
 };
-
-const fetchUserInfo = () => {
-	let info = [];
-
-	firebase.firestore().collection("users").get().then((snapshot) => {
-		snapshot.forEach((doc) => {
-			// doc.data() is never undefined for query doc snapshots
-			info.push(doc.data())
-			//temp.push()
-		}
-	);
-	})
-
-	return info;
-}
-

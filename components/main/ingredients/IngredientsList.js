@@ -12,7 +12,24 @@ import AddIngredient from "./AddIngredient";
 import firebase from "firebase";
 
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
-function IngredientsListScreen({ userInfo, navigation }) {
+function IngredientsListScreen({ navigation }) {
+	const [userInfo, setUserInfo] = useState(null);
+
+	window.addEventListener("load", () => {
+		fetchUserInfo();
+	});
+
+	const fetchUserInfo = async () => {
+		const data = await firebase
+			.firestore()
+			.collection("users")
+			.doc(firebase.auth().currentUser.uid)
+			.get()
+
+			.then((res) => setUserInfo(res.data()))
+			.then(console.log(userInfo));
+	};
+
 	const [data, setData] = useState({
 		email: "Jacob@gmail.com",
 		name: "Jacob",
@@ -39,18 +56,25 @@ function IngredientsListScreen({ userInfo, navigation }) {
 	});
 
 	useEffect(() => {
+		setUserInfo(fetchUserInfo());
+		console.log(userInfo);
 		firebase
 			.firestore()
 			.collection("users")
 			.get()
 			.then((snapshot) => {
+				const userdata = [];
 				snapshot.forEach((doc) => {
 					// doc.data() is never undefined for query doc snapshots
 					console.log(doc.data());
 					//temp.push()
+					userdata.push(doc.data());
 				});
+				console.log(userdata);
+				setData({ inventory: userdata });
 			})
 			.catch((error) => console.log("error"));
+		console.log(data);
 	}, []);
 	//Get all user data
 
@@ -98,7 +122,7 @@ function IngredientsListScreen({ userInfo, navigation }) {
 			</MaterialCommunityIcons.Button>
 			<View>
 				{data.inventory.map((ingredient) => (
-					<Ingredient key={ingredient.id} Ingredient={ingredient} />
+					<Ingredient key={ingredient.name} Ingredient={ingredient} />
 				))}
 			</View>
 
