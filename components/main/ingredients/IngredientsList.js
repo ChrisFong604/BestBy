@@ -66,9 +66,9 @@ function IngredientsListScreen({ navigation }) {
 				<QStext text={"Add Ingredient"} p />
 			</MaterialCommunityIcons.Button>
 
-			{foodInventory.map((food) => {
-				<Ingredient Ingredient={food} />;
-			})}
+			{foodInventory.map((food, index) => (
+				<Ingredient key={index} Ingredient={food} />
+			))}
 		</SafeAreaView>
 	);
 }
