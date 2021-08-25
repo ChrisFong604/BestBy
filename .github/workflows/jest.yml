@@ -1,0 +1,27 @@
+name: React CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+      - name: Checkout Branch
+        uses: actions/checkout@v2
+
+      - name: install deps
+        run: npm install
+
+      - name: Jest Tests
+        working-directory: .
+        run: npm test
