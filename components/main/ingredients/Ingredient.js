@@ -6,7 +6,7 @@ const Ingredient = ({ Ingredient }) => {
 	return (
 		<>
 			<Text>{Ingredient.name}</Text>
-			<Text>{Ingredient.email}</Text>
+			<Text>{Ingredient.foodgroup}</Text>
 		</>
 	);
 };

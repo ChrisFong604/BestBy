@@ -16,18 +16,19 @@ import { data } from "browserslist";
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
 function IngredientsListScreen({ navigation }) {
 	const [loading, setLoading] = useState(true);
-	const [userInfo, setUserInfo] = useState();
+	const [foodInventory, setFoodInventory] = useState();
 
 	useEffect(() => {
 		const fetchData = async () => {
 			const ref = db.collection("users");
 			const doc = await ref.doc(firebase.auth().currentUser.uid).get();
-			setUserInfo(doc.data());
+			setFoodInventory(doc.data().inventory);
+			console.log(foodInventory);
 			setLoading(false);
 		};
 		fetchData();
 	}, []);
-	//Get all user data
+
 	if (loading) {
 		return (
 			<View
@@ -65,11 +66,9 @@ function IngredientsListScreen({ navigation }) {
 				<QStext text={"Add Ingredient"} p />
 			</MaterialCommunityIcons.Button>
 
-			<Text>{userInfo.name}</Text>
-			<Text>{userInfo.email}</Text>
-			{
-				//Display Ingredient DB here
-			}
+			{foodInventory.map((food) => {
+				<Ingredient Ingredient={food} />;
+			})}
 		</SafeAreaView>
 	);
 }
