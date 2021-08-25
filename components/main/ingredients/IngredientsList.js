@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, SafeAreaView, Button } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
@@ -6,15 +6,80 @@ import { QStext } from "../../UI-Components/QStext";
 import Default from "../../UI-Components/Default";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
+import Ingredient from "./Ingredient";
 import AddIngredient from "./AddIngredient";
+//import db from "../FireBase";
+import firebase from "firebase";
 
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
-function IngredientsListScreen({ navigation }) {
+function IngredientsListScreen({ userInfo, navigation }) {
+	const [data, setData] = useState({
+		email: "Jacob@gmail.com",
+		name: "Jacob",
+
+		inventory: [
+			{
+				name: "apple",
+				expirydate: "2021-07-21",
+				foodgroup: "fruits",
+				id: "123",
+			},
+			{
+				name: "orange",
+				expirydate: "2021-07-21",
+				foodgroup: "fruits",
+				id: "1234",
+			},
+			{
+				name: "aaa",
+
+				id: "12345",
+			},
+		],
+	});
+
+	useEffect(() => {
+		firebase
+			.firestore()
+			.collection("users")
+			.get()
+			.then((snapshot) => {
+				snapshot.forEach((doc) => {
+					// doc.data() is never undefined for query doc snapshots
+					console.log(doc.data());
+					//temp.push()
+				});
+			})
+			.catch((error) => console.log("error"));
+	}, []);
+	//Get all user data
+
+	/*
+		{
+			email: "bob@gmail.com",
+			name: "bob wazowski",
+
+			inventory: [
+				{
+					"name": "apple",
+					"expiry-date": "2021-07-21",
+					"food-group": "fruits"
+				},
+				{
+					"name": "orange",
+					"expiry-date": "2021-07-21",
+					"food-group": "fruits"
+				}
+			]
+		}
+	*/
+
 	return (
 		<SafeAreaView style={Default.ViewContainer}>
 			<View style={{ flexDirection: "row" }}>
 				<QStext text={"Current Inventory"} h2 />
 			</View>
+
 			<MaterialCommunityIcons.Button
 				name="plus-circle"
 				color={"black"}
@@ -31,6 +96,11 @@ function IngredientsListScreen({ navigation }) {
 			>
 				<QStext text={"Add Ingredient"} p />
 			</MaterialCommunityIcons.Button>
+			<View>
+				{data.inventory.map((ingredient) => (
+					<Ingredient key={ingredient.id} Ingredient={ingredient} />
+				))}
+			</View>
 
 			{
 				//Display Ingredient DB here

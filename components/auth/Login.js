@@ -39,6 +39,7 @@ function LoginScreen({ navigation }) {
 			<Button onPress={() => navigation.navigate("Landing")} title={"Cancel"} />
 		</View>
 	);
+
 }
 /*
 export class LoginScreen extends Component {

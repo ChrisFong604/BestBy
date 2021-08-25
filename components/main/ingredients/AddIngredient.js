@@ -9,7 +9,7 @@ import { QStext } from "../../UI-Components/QStext";
 
 function AddIngredient({ navigation }) {
 	const [name, setName] = useState("");
-	const [expiratonDate, setExpirationDate] = useState("");
+	const [expirationDate, setExpirationDate] = useState("");
 	const [foodGroup, setFoodGroup] = useState("");
 
 	const cameraLaunch = () => {
@@ -48,7 +48,7 @@ function AddIngredient({ navigation }) {
 			.doc()
 			.set({
 				name: name,
-				"expiry-date": expiratonDate,
+				"expiry-date": expirationDate,
 				"food-group": foodGroup,
 			})
 			.then((res) => {
@@ -73,6 +73,7 @@ function AddIngredient({ navigation }) {
 					onChangeText={(name) => setName(name)}
 				></TextInput>
 			</View>
+
 			<View style={{ flexDirection: "row" }}>
 				<MaterialCommunityIcons
 					name="calendar"
@@ -108,8 +109,13 @@ function AddIngredient({ navigation }) {
 				</TouchableOpacity>
 			</View>
 			<Button title={"Add"} onPress={() => submitIngredientHandler()} />
+
+			<Button onPress={() => navigation.navigate("IngredientsList")} title={"Cancel"} />
+
 		</View>
 	);
+
 }
+
 
 export default AddIngredient;
