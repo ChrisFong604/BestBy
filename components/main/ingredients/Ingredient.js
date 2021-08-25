@@ -1,15 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { Text, View, Button } from "react-native";
-import { QStext } from '../../UI-Components/QStext';
+import { QStext } from "../../UI-Components/QStext";
 
-const Ingredient = ({ Ingredient }) => {
+const Ingredient = () => {
+	const [ingredient, setIngredient] = useState({
+		name: "pineapple",
+		expirydate: "tomorrow",
+		foodgroup: "fruits",
+	});
+
 	return (
 		<>
-			<Text>{Ingredient.name}</Text>
-			<Text>{Ingredient.expirydate}</Text>
-			
+			<Text>{ingredient.name}</Text>
+			<Text>{ingredient.expirydate}</Text>
+			<Text>{ingredient.foodgroup}</Text>
 		</>
-	)
-}
+	);
+};
 
 export default Ingredient;

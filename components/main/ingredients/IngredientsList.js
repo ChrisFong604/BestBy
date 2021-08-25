@@ -12,10 +12,10 @@ import AddIngredient from "./AddIngredient";
 import firebase from "firebase";
 
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
-function IngredientsListScreen({ username, useremail, navigation }) {
+function IngredientsListScreen({ userInfo, navigation }) {
 	const [data, setData] = useState({
-		email: useremail,
-		name: username,
+		email: "Jacob@gmail.com",
+		name: "Jacob",
 
 		inventory: [
 			{
@@ -80,8 +80,6 @@ function IngredientsListScreen({ username, useremail, navigation }) {
 				<QStext text={"Current Inventory"} h2 />
 			</View>
 
-			<Text>{username}</Text>
-
 			<MaterialCommunityIcons.Button
 				name="plus-circle"
 				color={"black"}
@@ -98,7 +96,6 @@ function IngredientsListScreen({ username, useremail, navigation }) {
 			>
 				<QStext text={"Add Ingredient"} p />
 			</MaterialCommunityIcons.Button>
-
 			<View>
 				{data.inventory.map((ingredient) => (
 					<Ingredient key={ingredient.id} Ingredient={ingredient} />
