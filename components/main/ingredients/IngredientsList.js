@@ -29,48 +29,59 @@ const fetchUserInfo = () => {
 
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
 function IngredientsListScreen({ navigation }) {
-	const [userInfo, setUserinfo] = useState(fetchUserInfo());
+	const [userInfo, setUserInfo] = useState(null);
+
+	window.addEventListener("load", () => {
+		fetchUserInfo();
+	});
+
+	const fetchUserInfo = async () => {
+		const data = await firebase
+			.firestore()
+			.collection("users")
+			.doc(firebase.auth().currentUser.uid)
+			.get()
+
+			.then((res) => setUserInfo(res.data()))
+			//.then(console.log(userInfo));
+	};
+
 	const [data, setData] = useState({
 		email: "Jacob@gmail.com",
 		name: "Jacob",
 
 		inventory: [
-			{
-				name: "apple",
-				expirydate: "2021-07-21",
-				foodgroup: "fruits",
-				id: "123",
-			},
-			{
-				name: "orange",
-				expirydate: "2021-07-21",
-				foodgroup: "fruits",
-				id: "1234",
-			},
-			{
-				name: "aaa",
-
-				id: "12345",
-			},
+			
 		],
 	});
 	
-	console.log("userinfo")
-	console.log(userInfo);
+	//console.log("userinfo")
+	//console.log(userInfo);
 
 	useEffect(() => {
+		setUserInfo(fetchUserInfo());
+		console.log(userInfo);
 		firebase
 			.firestore()
 			.collection("users")
 			.get()
 			.then((snapshot) => {
+				const userdata = [];
 				snapshot.forEach((doc) => {
 					// doc.data() is never undefined for query doc snapshots
 					console.log(doc.data());
 					//temp.push()
+					
+					userdata.push(doc.data());
 				});
+				console.log(userdata);
+				setData({ inventory: userdata });
+				console.log("DATA.INVENTORY RIGHT AFTER SETDATA")
+				console.log(data.inventory)
 			})
 			.catch((error) => console.log("error"));
+		console.log("DATA.INVENTORY")
+		console.log(data.inventory);
 	}, []);
 	//Get all user data
 
@@ -116,9 +127,10 @@ function IngredientsListScreen({ navigation }) {
 			>
 				<QStext text={"Add Ingredient"} p />
 			</MaterialCommunityIcons.Button>
+			
 			<View>
 				{data.inventory.map((ingredient) => (
-					<Ingredient key={ingredient.id} Ingredient={ingredient} />
+					<Ingredient key={ingredient.name} Ingredient={ingredient} />
 				))}
 			</View>
 

@@ -4,7 +4,7 @@ import { Text, View, Button } from "react-native";
 
 import firebase from "firebase/app";
 
-import { AuthProvider } from "./context/UserContext";
+import { Provider } from "./context/UserContext";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyCeiTn_h_M0Qn142qjJt32-6tGSQixTgWw",
@@ -62,7 +62,6 @@ export default function App() {
 				}}
 			>
 				<QStext text={"Loading"} h2 />
-				
 			</View>
 		);
 	}
@@ -92,7 +91,7 @@ export default function App() {
 
 	return (
 		//When User is logged in
-		<AuthProvider>
+		<Provider>
 			<NavigationContainer>
 				<Stack.Navigator initialrouteName="Main">
 					<Stack.Screen
@@ -102,6 +101,6 @@ export default function App() {
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>
-		</AuthProvider>
+		</Provider>
 	);
 }
