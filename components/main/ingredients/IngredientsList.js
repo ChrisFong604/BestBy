@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, SafeAreaView, Button } from "react-native";
+import React, { useState, useEffect, useFocusEffect } from "react";
+import { View, SafeAreaView, ActivityIndicator } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { QStext } from "../../UI-Components/QStext";
@@ -8,8 +8,10 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import Ingredient from "./Ingredient";
 import AddIngredient from "./AddIngredient";
-//import db from "../FireBase";
+
 import firebase from "firebase";
+import { db } from "../../../firebase";
+import { data } from "browserslist";
 
 
 const fetchUserInfo = () => {
@@ -29,83 +31,37 @@ const fetchUserInfo = () => {
 
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
 function IngredientsListScreen({ navigation }) {
-	const [userInfo, setUserInfo] = useState(null);
-
-	window.addEventListener("load", () => {
-		fetchUserInfo();
-	});
-
-	const fetchUserInfo = async () => {
-		const data = await firebase
-			.firestore()
-			.collection("users")
-			.doc(firebase.auth().currentUser.uid)
-			.get()
-
-			.then((res) => setUserInfo(res.data()))
-			//.then(console.log(userInfo));
-	};
-
-	const [data, setData] = useState({
-		email: "Jacob@gmail.com",
-		name: "Jacob",
-
-		inventory: [
-			
-		],
-	});
-	
-	//console.log("userinfo")
-	//console.log(userInfo);
+	const [loading, setLoading] = useState(true);
+	const [foodInventory, setFoodInventory] = useState();
 
 	useEffect(() => {
-		setUserInfo(fetchUserInfo());
-		console.log(userInfo);
-		firebase
-			.firestore()
-			.collection("users")
-			.get()
-			.then((snapshot) => {
-				const userdata = [];
-				snapshot.forEach((doc) => {
-					// doc.data() is never undefined for query doc snapshots
-					console.log(doc.data());
-					//temp.push()
-					
-					userdata.push(doc.data());
-				});
-				console.log(userdata);
-				setData({ inventory: userdata });
-				console.log("DATA.INVENTORY RIGHT AFTER SETDATA")
-				console.log(data.inventory)
-			})
-			.catch((error) => console.log("error"));
-		console.log("DATA.INVENTORY")
-		console.log(data.inventory);
+		const fetchData = async () => {
+			const ref = db.collection("users");
+			
+			const doc = await ref.doc(firebase.auth().currentUser.uid).get();
+			//console.log("THIS IS DOC");
+			//console.log(doc)
+			setFoodInventory(doc.data().inventory);
+			/*ref.doc(firebase.auth().currentUser.uid).onSnapshot((doc) => {
+				let doc1 = [];
+				console.log("Current data: ", doc.data().inventory);
+				doc1.push(doc.data().inventory);
+				console.log("Current doc1: ", doc1);
+				setFoodInventory(doc1);
+				console.log("Current foodInventory: ", foodInventory);
+			});*/
+
+			
+			
+			//setFoodInventory(doc1.data().inventory);
+			console.log("THIS IS FOOD INVENTORY")
+			console.log(foodInventory);
+			setLoading(false);
+		};
+		fetchData();
 	}, []);
-	//Get all user data
 
-	/*
-		{
-			email: "bob@gmail.com",
-			name: "bob wazowski",
-
-			inventory: [
-				{
-					"name": "apple",
-					"expiry-date": "2021-07-21",
-					"food-group": "fruits"
-				},
-				{
-					"name": "orange",
-					"expiry-date": "2021-07-21",
-					"food-group": "fruits"
-				}
-			]
-		}
-	*/
-
-	return (
+	return loading ? (
 		<SafeAreaView style={Default.ViewContainer}>
 			<View style={{ flexDirection: "row" }}>
 				<QStext text={"Current Inventory"} h2 />
@@ -127,16 +83,40 @@ function IngredientsListScreen({ navigation }) {
 			>
 				<QStext text={"Add Ingredient"} p />
 			</MaterialCommunityIcons.Button>
-			
-			<View>
-				{data.inventory.map((ingredient) => (
-					<Ingredient key={ingredient.name} Ingredient={ingredient} />
-				))}
+			<ActivityIndicator size="large" color="blue" />
+		</SafeAreaView>
+	) : (
+		<SafeAreaView style={Default.ViewContainer}>
+			<View style={{ flexDirection: "row" }}>
+				<QStext text={"Current Inventory"} h2 />
 			</View>
 
-			{
-				//Display Ingredient DB here
-			}
+			<MaterialCommunityIcons.Button
+				name="plus-circle"
+				color={"black"}
+				iconStyle={{
+					margin: 0,
+					padding: 0,
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+				backgroundColor={"orange"}
+				size={20}
+				borderRadius={100}
+				onPress={() => navigation.navigate("AddIngredient")}
+			>
+				<QStext text={"Add Ingredient"} p />
+			</MaterialCommunityIcons.Button>
+
+			{() => {
+				if (loading) {
+					return <ActivityIndicator size="large" color="#0000ff" />;
+				}
+			}}
+
+			{foodInventory.map((food, index) => (
+				<Ingredient key={index} Ingredient={food} />
+			))}
 		</SafeAreaView>
 	);
 }

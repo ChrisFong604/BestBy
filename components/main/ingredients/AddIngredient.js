@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Button } from "react-native";
 import firebase from "firebase";
+import { auth, db } from "../../../firebase";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -41,18 +42,22 @@ function AddIngredient({ navigation }) {
 		});
 	};
 
-	const submitIngredientHandler = () => {
-		firebase
+	const submitIngredientHandler = async () => {
+		const ref = firebase
 			.firestore()
-			.collection("ingredients")
-			.doc()
-			.set({
-				name: name,
-				"expiry-date": expirationDate,
-				"food-group": foodGroup,
+			.collection("users")
+			.doc(auth.currentUser.uid)
+			.update({
+				inventory: firebase.firestore.FieldValue.arrayUnion({
+					name: name,
+					expirydate: expirationDate,
+					foodgroup: foodGroup,
+				}),
 			})
-			.then((res) => {
-				console.log("Added to collection " + res);
+			/*.set({
+				inventory: [...inventory, newIngredient],
+			})*/
+			.then(() => {
 				navigation.navigate("IngredientsList");
 			});
 	};
@@ -110,12 +115,12 @@ function AddIngredient({ navigation }) {
 			</View>
 			<Button title={"Add"} onPress={() => submitIngredientHandler()} />
 
-			<Button onPress={() => navigation.navigate("IngredientsList")} title={"Cancel"} />
-
+			<Button
+				onPress={() => navigation.navigate("IngredientsList")}
+				title={"Cancel"}
+			/>
 		</View>
 	);
-
 }
-
 
 export default AddIngredient;
