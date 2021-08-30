@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Button } from "react-native";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import firebase from "firebase";
+import { auth, db } from "../../../firebase";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -41,18 +44,22 @@ function AddIngredient({ navigation }) {
 		});
 	};
 
-	const submitIngredientHandler = () => {
-		firebase
+	const submitIngredientHandler = async () => {
+		const ref = firebase
 			.firestore()
-			.collection("ingredients")
-			.doc()
-			.set({
-				name: name,
-				"expiry-date": expirationDate,
-				"food-group": foodGroup,
+			.collection("users")
+			.doc(auth.currentUser.uid)
+			.update({
+				inventory: firebase.firestore.FieldValue.arrayUnion({
+					name: name,
+					expirydate: expirationDate,
+					foodgroup: foodGroup,
+				}),
 			})
-			.then((res) => {
-				console.log("Added to collection " + res);
+			/*.set({
+				inventory: [...inventory, newIngredient],
+			})*/
+			.then(() => {
 				navigation.navigate("IngredientsList");
 			});
 	};
@@ -80,12 +87,14 @@ function AddIngredient({ navigation }) {
 					size={25}
 					style={{ alignSelf: "center" }}
 				/>
-				<TextInput
-					style={Default.Input}
-					placeholder="expiration date"
-					onChangeText={(date) => setExpirationDate(date)}
-				></TextInput>
+				<Calendar
+					onChange={(date) => {
+						console.log(date);
+						setExpirationDate(date);
+					}}
+				/>
 			</View>
+
 			<View style={{ flexDirection: "row" }}>
 				<MaterialCommunityIcons
 					name="food"
@@ -98,6 +107,7 @@ function AddIngredient({ navigation }) {
 					onChangeText={(foodgroup) => setFoodGroup(foodgroup)}
 				></TextInput>
 			</View>
+
 			<View style={{ flexDirection: "row" }}>
 				<MaterialCommunityIcons
 					name="camera"
@@ -108,14 +118,15 @@ function AddIngredient({ navigation }) {
 					<QStext text={"Launch Camera"} p style={{ alignSelf: "center" }} />
 				</TouchableOpacity>
 			</View>
+
 			<Button title={"Add"} onPress={() => submitIngredientHandler()} />
 
-			<Button onPress={() => navigation.navigate("IngredientsList")} title={"Cancel"} />
-
+			<Button
+				onPress={() => navigation.navigate("IngredientsList")}
+				title={"Cancel"}
+			/>
 		</View>
 	);
-
 }
-
 
 export default AddIngredient;

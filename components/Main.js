@@ -23,9 +23,10 @@ function Main() {
 		<Tab.Navigator>
 			<Tab.Screen
 				name="Inventory"
-				children={() => <IngredientStack userInfo={userInfo} />}
+				children={() => <IngredientStack
+				/>}
 				options={{
-					tabBarIcon: ({ color, size }) => (
+					tabBarIcon: ({ color }) => (
 						<MaterialCommunityIcons name="shaker" color={color} size={30} />
 					),
 				}}
@@ -34,7 +35,7 @@ function Main() {
 				name="Calendar"
 				component={ExpirationCalendar}
 				options={{
-					tabBarIcon: ({ color, size }) => (
+					tabBarIcon: ({ color }) => (
 						<MaterialCommunityIcons name="calendar" color={color} size={30} />
 					),
 				}}
@@ -42,14 +43,10 @@ function Main() {
 			<Tab.Screen
 				name={"Account"}
 				children={() => (
-					<AccountScreen
-						username={user.name}
-						useremail={user.email}
-						isAnon={user.isAnonymous}
-					/>
+					<AccountScreen useremail={user.email} isAnon={user.isAnonymous} />
 				)}
 				options={{
-					tabBarIcon: ({ color, size }) => (
+					tabBarIcon: ({ color }) => (
 						<MaterialCommunityIcons
 							name="account-circle"
 							color={color}

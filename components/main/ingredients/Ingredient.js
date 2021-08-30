@@ -14,9 +14,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 	return (
 		<>
-			<Text>{ingredient.name}</Text>
-			<Text>{ingredient.expirydate}</Text>
-			<Text>{ingredient.foodgroup}</Text>
+			<Text>{Ingredient.name}</Text>
 		</>
 	);
 };*/

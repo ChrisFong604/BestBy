@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, SafeAreaView, Button } from "react-native";
+import React, { useState, useEffect, useFocusEffect } from "react";
+import { View, SafeAreaView, ActivityIndicator } from "react-native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { QStext } from "../../UI-Components/QStext";
@@ -8,72 +8,38 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import Ingredient from "./Ingredient";
 import AddIngredient from "./AddIngredient";
-//import db from "../FireBase";
+
 import firebase from "firebase";
+import { db } from "../../../firebase";
+import { data } from "browserslist";
 
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
-function IngredientsListScreen({ userInfo, navigation }) {
-	const [data, setData] = useState({
-		email: "Jacob@gmail.com",
-		name: "Jacob",
+function IngredientsListScreen({ navigation }) {
+	const [loading, setLoading] = useState(true);
+	const [foodInventory, setFoodInventory] = useState();
 
-		inventory: [
-			{
-				name: "apple",
-				expirydate: "2021-07-21",
-				foodgroup: "fruits",
-				id: "123",
-			},
-			{
-				name: "orange",
-				expirydate: "2021-07-21",
-				foodgroup: "fruits",
-				id: "1234",
-			},
-			{
-				name: "aaa",
+	const fetchData = async () => {
+		const ref = db.collection("users");
 
-				id: "12345",
-			},
-		],
-	});
+		const listener = ref
+			.doc(firebase.auth().currentUser.uid)
+			.onSnapshot((doc) => {
+				console.log("Listener returns: ", doc.data());
+				const doc1 = doc;
+
+				setFoodInventory(doc1.data().inventory);
+			});
+
+		const doc = await ref.doc(firebase.auth().currentUser.uid).get();
+
+		setLoading(false);
+	};
 
 	useEffect(() => {
-		firebase
-			.firestore()
-			.collection("users")
-			.get()
-			.then((snapshot) => {
-				snapshot.forEach((doc) => {
-					// doc.data() is never undefined for query doc snapshots
-					console.log(doc.data());
-					//temp.push()
-				});
-			})
-			.catch((error) => console.log("error"));
+		fetchData();
 	}, []);
-	//Get all user data
 
-	/*
-		{
-			email: "bob@gmail.com",
-			name: "bob wazowski",
-			inventory: [
-				{
-					"name": "apple",
-					"expiry-date": "2021-07-21",
-					"food-group": "fruits"
-				},
-				{
-					"name": "orange",
-					"expiry-date": "2021-07-21",
-					"food-group": "fruits"
-				}
-			]
-		}
-	*/
-
-	return (
+	return loading ? (
 		<SafeAreaView style={Default.ViewContainer}>
 			<View style={{ flexDirection: "row" }}>
 				<QStext text={"Current Inventory"} h2 />
@@ -95,15 +61,34 @@ function IngredientsListScreen({ userInfo, navigation }) {
 			>
 				<QStext text={"Add Ingredient"} p />
 			</MaterialCommunityIcons.Button>
-			<View style={{ width: 200}}>
-				{data.inventory.map((ingredient) => (
-					<Ingredient key={ingredient.id} Ingredient={ingredient} />
-				))}
+			<ActivityIndicator size="large" color="blue" />
+		</SafeAreaView>
+	) : (
+		<SafeAreaView style={Default.ViewContainer}>
+			<View style={{ flexDirection: "row" }}>
+				<QStext text={"Current Inventory"} h2 />
 			</View>
 
-			{
-				//Display Ingredient DB here
-			}
+			<MaterialCommunityIcons.Button
+				name="plus-circle"
+				color={"black"}
+				iconStyle={{
+					margin: 0,
+					padding: 0,
+					alignItems: "center",
+					justifyContent: "center",
+				}}
+				backgroundColor={"orange"}
+				size={20}
+				borderRadius={100}
+				onPress={() => navigation.navigate("AddIngredient")}
+			>
+				<QStext text={"Add Ingredient"} p />
+			</MaterialCommunityIcons.Button>
+
+			{foodInventory.map((food, index) => (
+				<Ingredient key={index} Ingredient={food} />
+			))}
 		</SafeAreaView>
 	);
 }

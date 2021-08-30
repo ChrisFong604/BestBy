@@ -2,23 +2,11 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect, createContext } from "react";
 import { Text, View, Button } from "react-native";
 
-import firebase from "firebase/app";
+import { db, auth } from "./firebase";
 
-import { AuthProvider } from "./context/UserContext";
+import { Provider } from "./context/UserContext";
 
-const firebaseConfig = {
-	apiKey: "AIzaSyCeiTn_h_M0Qn142qjJt32-6tGSQixTgWw",
-	authDomain: "bestby-2a9ad.firebaseapp.com",
-	projectId: "bestby-2a9ad",
-	storageBucket: "bestby-2a9ad.appspot.com",
-	messagingSenderId: "201942630744",
-	appId: "1:201942630744:web:240677cca611bc2f0be52d",
-	measurementId: "G-VHHP35HT8D",
-};
-
-if (firebase.apps.length === 0) {
-	firebase.initializeApp(firebaseConfig);
-}
+import firebase from "./firebase";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -62,7 +50,6 @@ export default function App() {
 				}}
 			>
 				<QStext text={"Loading"} h2 />
-				
 			</View>
 		);
 	}
@@ -92,7 +79,7 @@ export default function App() {
 
 	return (
 		//When User is logged in
-		<AuthProvider>
+		<Provider>
 			<NavigationContainer>
 				<Stack.Navigator initialrouteName="Main">
 					<Stack.Screen
@@ -102,6 +89,6 @@ export default function App() {
 					/>
 				</Stack.Navigator>
 			</NavigationContainer>
-		</AuthProvider>
+		</Provider>
 	);
 }
