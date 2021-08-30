@@ -58,7 +58,6 @@ function IngredientsListScreen({ userInfo, navigation }) {
 		{
 			email: "bob@gmail.com",
 			name: "bob wazowski",
-
 			inventory: [
 				{
 					"name": "apple",
@@ -96,7 +95,7 @@ function IngredientsListScreen({ userInfo, navigation }) {
 			>
 				<QStext text={"Add Ingredient"} p />
 			</MaterialCommunityIcons.Button>
-			<View>
+			<View style={{ width: 200}}>
 				{data.inventory.map((ingredient) => (
 					<Ingredient key={ingredient.id} Ingredient={ingredient} />
 				))}
