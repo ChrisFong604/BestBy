@@ -1,4 +1,3 @@
-
 import { StyleSheet, Text, View, Button } from "react-native";
 import { QStext } from "../../UI-Components/QStext";
 import React, { useState, useEffect, useFocusEffect } from "react";
@@ -11,11 +10,11 @@ const Ingredient = ({ Ingredient }) => {
 	if (Ingredient.foodgroup == "fruits") {
 		foodGroup = "food-apple";
 	}
-	else if (Ingredient.foodgroup == "meats") {
-		foodGroup = "food-drumstick";
-	}
 	else if (Ingredient.foodgroup == "vegetables") {
 		foodGroup = "corn";
+	}
+	else if (Ingredient.foodgroup == "meats") {
+		foodGroup = "food-drumstick";
 	}
 	else if (Ingredient.foodgroup == "grains") {
 		foodGroup = "baguette";
@@ -49,18 +48,23 @@ const Ingredient = ({ Ingredient }) => {
 
 	return (
 		<>
-			<View style={styles.row}>
-				<MaterialCommunityIcons
-					name={foodGroup}
-					size={25}
-					style={styles.container , { flex: 1 }}
-				/>
-				<View style={styles.container , { flex: 2 }}>
-					<Text>{Ingredient.name}</Text>
+			<View style={styles.container}>
+				<View style={styles.row}>
+					<MaterialCommunityIcons
+						name={foodGroup}
+						size={25}
+						style={styles.container , { flex: 1 }}
+					/>
+					<View style={styles.container , { flex: 2 }}>
+						<Text>{Ingredient.name}</Text>
+					</View>
+					<View style={styles.container , { flex: 3 , marginHorizontal: 2 }}>
+						<Text>Exp. {expdate}</Text>
+					</View>
+					<Button title={"Edit"} />
+					<Button title={"Delete"} />
 				</View>
-				<View style={styles.container , { flex: 3 , marginHorizontal: 2 }}>
-					<Text>Exp. {expdate}</Text>
-				</View>
+				
 				<View style={styles.container , { flex: 4 , marginHorizontal: 2}}>
 					<Text>Days until expiry: {date}</Text>
 				</View>
@@ -72,16 +76,18 @@ const Ingredient = ({ Ingredient }) => {
 const styles = StyleSheet.create({
 	container: {
 	  	alignSelf: "center",
-	},
-	row: {
-		flexDirection: "row",
-		width: 400,
-		alignSelf: "center",
-		marginVertical: 5,
+		//width: 400,
 		borderWidth: 2,
 		borderColor: "#20232a",  
 		borderRadius: 6,
 		padding: 15,
+		margin: 15,
+	},
+	row: {
+		flexDirection: "row",
+		width: 300,
+		alignSelf: "center",
+		marginVertical: 5,
 	}
   });
 

@@ -110,8 +110,8 @@ function AddIngredient({ navigation }) {
 				}>
 					<Picker.Item label="Select..." value="null" />
 					<Picker.Item label="Fruits" value="fruits" />
-					<Picker.Item label="Meats" value="meats" />
 					<Picker.Item label="Vegetables" value="vegetables" />
+					<Picker.Item label="Meats" value="meats" />
 					<Picker.Item label="Grains" value="grains" />
 					<Picker.Item label="Dairy" value="dairy" />
 					<Picker.Item label="Other" value="other" />
