@@ -20,7 +20,7 @@ function IngredientsListScreen({ navigation }) {
 
 	const fetchData = async () => {
 		const ref = db.collection("users");
-
+		
 		const listener = ref
 			.doc(firebase.auth().currentUser.uid)
 			.onSnapshot((doc) => {
@@ -29,7 +29,7 @@ function IngredientsListScreen({ navigation }) {
 
 				setFoodInventory(doc1.data().inventory);
 			});
-
+			
 		const doc = await ref.doc(firebase.auth().currentUser.uid).get();
 
 		setLoading(false);
@@ -38,6 +38,7 @@ function IngredientsListScreen({ navigation }) {
 	useEffect(() => {
 		fetchData();
 	}, []);
+	
 
 	return loading ? (
 		<SafeAreaView style={Default.ViewContainer}>

@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button } from "react-native";
 import { QStext } from "../../UI-Components/QStext";
 import React, { useState, useEffect, useFocusEffect } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import firebase from "firebase";
+import { auth, db } from "../../../firebase";
 
 /*
 const Ingredient = ({ Ingredient }) => {
@@ -37,6 +39,15 @@ const Ingredient = ({ Ingredient }) => {
 	if (Ingredient.foodgroup == "fruits") {
 		foodGroup = "food-apple";
 	}
+	const deleteIngredientHandler = async () => {
+		const ref = firebase
+			.firestore()
+			.collection("users")
+			.doc(auth.currentUser.uid)
+			.update({
+				inventory: firebase.firestore.FieldValue.arrayRemove(Ingredient)
+			})		
+	};
 
 	return (
 		<>
@@ -52,6 +63,7 @@ const Ingredient = ({ Ingredient }) => {
 				<View style={{ flex: 2 }}>
 					<Text>Exp. {Ingredient.expirydate.Time}</Text>
 				</View>
+				<Button title={"Delete" } onPress={() => deleteIngredientHandler()}/>
 			</View>
 		</>
 	);
