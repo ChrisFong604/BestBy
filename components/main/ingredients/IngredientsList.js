@@ -41,7 +41,7 @@ function IngredientsListScreen({ navigation }) {
 
 	return loading ? (
 		<SafeAreaView style={Default.ViewContainer}>
-			<View style={{ flexDirection: "row" }}>
+			<View style={{ flexDirection: "row"}}>
 				<QStext text={"Current Inventory"} h2 />
 			</View>
 

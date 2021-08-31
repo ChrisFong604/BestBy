@@ -4,11 +4,13 @@ import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import firebase from "firebase";
 import { auth, db } from "../../../firebase";
+import { Picker } from "@react-native-picker/picker";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Default from "../../UI-Components/Default";
 import { QStext } from "../../UI-Components/QStext";
+//import { PickerItem } from "react-native/Libraries/Components/Picker/Picker";
 
 function AddIngredient({ navigation }) {
 	const [name, setName] = useState("");
@@ -101,13 +103,21 @@ function AddIngredient({ navigation }) {
 					size={25}
 					style={{ alignSelf: "center" }}
 				/>
-				<TextInput
+				<Picker
 					style={Default.Input}
-					placeholder="food group"
-					onChangeText={(foodgroup) => setFoodGroup(foodgroup)}
-				></TextInput>
+					selectedValue={foodGroup}
+					onValueChange={(itemValue, itemIndex) => setFoodGroup(itemValue)
+				}>
+					<Picker.Item label="Select..." value="null" />
+					<Picker.Item label="Fruits" value="fruits" />
+					<Picker.Item label="Meats" value="meats" />
+					<Picker.Item label="Vegetables" value="vegetables" />
+					<Picker.Item label="Grains" value="grains" />
+					<Picker.Item label="Dairy" value="dairy" />
+					<Picker.Item label="Other" value="other" />
+				</Picker>
 			</View>
-
+			
 			<View style={{ flexDirection: "row" }}>
 				<MaterialCommunityIcons
 					name="camera"
