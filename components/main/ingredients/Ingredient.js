@@ -6,7 +6,6 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import firebase from "firebase";
 import { auth, db } from "../../../firebase";
 
-
 const Ingredient = ({ Ingredient }) => {
 
 	let foodGroup;
@@ -66,20 +65,34 @@ const Ingredient = ({ Ingredient }) => {
 					<MaterialCommunityIcons
 						name={foodGroup}
 						size={25}
-						style={styles.container , { flex: 1 }}
+						style={{ flex: 1 , alignSelf: "center" }}
 					/>
-					<View style={styles.container , { flex: 2 }}>
+					<View style={{ flex: 2 , alignSelf: "center" }}>
 						<Text>{Ingredient.name}</Text>
 					</View>
-					<View style={styles.container , { flex: 3 , marginHorizontal: 2 }}>
+					<View style={{ flex: 3 , alignSelf: "center" }}>
 						<Text>Exp. {expdate}</Text>
 					</View>
-					<Button title={"Edit"} />
-					<Button title={"Delete" } onPress={() => deleteIngredientHandler()}/>
+					<View style={styles.button}>
+						<Button 
+						color="#035e7b"
+						title={"Edit"} />
+					</View>
+					
 				</View>
 				
-				<View style={styles.container , { flex: 4 , marginHorizontal: 2}}>
-					<Text>Days until expiry: {date}</Text>
+				<View style={styles.row}>
+					<View style={{ flex: 2 , alignSelf: "center" }}>
+						<Text>Days until expiry: {date}</Text>
+					</View>
+					<View style={styles.button}>
+						<Button 
+							color="#ff0000" 
+							title={"Delete"} 
+							onPress={() => deleteIngredientHandler()}
+						/>
+					</View>
+					
 				</View>
 			</View>
 		</>
@@ -89,7 +102,6 @@ const Ingredient = ({ Ingredient }) => {
 const styles = StyleSheet.create({
 	container: {
 	  	alignSelf: "center",
-		//width: 400,
 		borderWidth: 2,
 		borderColor: "#20232a",  
 		borderRadius: 6,
@@ -101,6 +113,10 @@ const styles = StyleSheet.create({
 		width: 300,
 		alignSelf: "center",
 		marginVertical: 5,
+	},
+	button: {
+		width: 70,
+		alignSelf: "flex-end",
 	}
   });
 
