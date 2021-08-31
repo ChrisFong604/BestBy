@@ -3,6 +3,9 @@ import { QStext } from "../../UI-Components/QStext";
 import React, { useState, useEffect, useFocusEffect } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
+import firebase from "firebase";
+import { auth, db } from "../../../firebase";
+
 
 const Ingredient = ({ Ingredient }) => {
 
@@ -46,6 +49,16 @@ const Ingredient = ({ Ingredient }) => {
 		setExpdate(st.getFullYear() + "-" + parseInt(st.getMonth() + 1) + "-" + st.getDate());
 	}, [])
 
+	const deleteIngredientHandler = async () => {
+        const ref = firebase
+            .firestore()
+            .collection("users")
+            .doc(auth.currentUser.uid)
+            .update({
+                inventory: firebase.firestore.FieldValue.arrayRemove(Ingredient)
+            })        
+    };
+
 	return (
 		<>
 			<View style={styles.container}>
@@ -62,7 +75,7 @@ const Ingredient = ({ Ingredient }) => {
 						<Text>Exp. {expdate}</Text>
 					</View>
 					<Button title={"Edit"} />
-					<Button title={"Delete"} />
+					<Button title={"Delete" } onPress={() => deleteIngredientHandler()}/>
 				</View>
 				
 				<View style={styles.container , { flex: 4 , marginHorizontal: 2}}>
