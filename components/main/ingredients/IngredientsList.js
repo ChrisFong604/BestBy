@@ -13,51 +13,29 @@ import firebase from "firebase";
 import { db } from "../../../firebase";
 import { data } from "browserslist";
 
-
-const fetchUserInfo = () => {
-	let info = [];
-
-	firebase.firestore().collection("users").get().then((snapshot) => {
-		snapshot.forEach((doc) => {
-			// doc.data() is never undefined for query doc snapshots
-			info.push(doc.data())
-			//temp.push()
-		}
-	);
-	})
-
-	return info;
-}
-
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
 function IngredientsListScreen({ navigation }) {
 	const [loading, setLoading] = useState(true);
 	const [foodInventory, setFoodInventory] = useState();
 
-	useEffect(() => {
-		const fetchData = async () => {
-			const ref = db.collection("users");
-			
-			const doc = await ref.doc(firebase.auth().currentUser.uid).get();
-			//console.log("THIS IS DOC");
-			//console.log(doc)
-			setFoodInventory(doc.data().inventory);
-			/*ref.doc(firebase.auth().currentUser.uid).onSnapshot((doc) => {
-				let doc1 = [];
-				console.log("Current data: ", doc.data().inventory);
-				doc1.push(doc.data().inventory);
-				console.log("Current doc1: ", doc1);
-				setFoodInventory(doc1);
-				console.log("Current foodInventory: ", foodInventory);
-			});*/
+	const fetchData = async () => {
+		const ref = db.collection("users");
 
-			
-			
-			//setFoodInventory(doc1.data().inventory);
-			console.log("THIS IS FOOD INVENTORY")
-			console.log(foodInventory);
-			setLoading(false);
-		};
+		const listener = ref
+			.doc(firebase.auth().currentUser.uid)
+			.onSnapshot((doc) => {
+				console.log("Listener returns: ", doc.data());
+				const doc1 = doc;
+
+				setFoodInventory(doc1.data().inventory);
+			});
+
+		const doc = await ref.doc(firebase.auth().currentUser.uid).get();
+
+		setLoading(false);
+	};
+
+	useEffect(() => {
 		fetchData();
 	}, []);
 
@@ -107,12 +85,6 @@ function IngredientsListScreen({ navigation }) {
 			>
 				<QStext text={"Add Ingredient"} p />
 			</MaterialCommunityIcons.Button>
-
-			{() => {
-				if (loading) {
-					return <ActivityIndicator size="large" color="#0000ff" />;
-				}
-			}}
 
 			{foodInventory.map((food, index) => (
 				<Ingredient key={index} Ingredient={food} />

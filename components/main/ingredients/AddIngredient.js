@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Button } from "react-native";
+import Calendar from "react-calendar";
+import "react-calendar/dist/Calendar.css";
 import firebase from "firebase";
 import { auth, db } from "../../../firebase";
 
@@ -85,12 +87,14 @@ function AddIngredient({ navigation }) {
 					size={25}
 					style={{ alignSelf: "center" }}
 				/>
-				<TextInput
-					style={Default.Input}
-					placeholder="expiration date"
-					onChangeText={(date) => setExpirationDate(date)}
-				></TextInput>
+				<Calendar
+					onChange={(date) => {
+						console.log(date);
+						setExpirationDate(date);
+					}}
+				/>
 			</View>
+
 			<View style={{ flexDirection: "row" }}>
 				<MaterialCommunityIcons
 					name="food"
@@ -103,6 +107,7 @@ function AddIngredient({ navigation }) {
 					onChangeText={(foodgroup) => setFoodGroup(foodgroup)}
 				></TextInput>
 			</View>
+
 			<View style={{ flexDirection: "row" }}>
 				<MaterialCommunityIcons
 					name="camera"
@@ -113,6 +118,7 @@ function AddIngredient({ navigation }) {
 					<QStext text={"Launch Camera"} p style={{ alignSelf: "center" }} />
 				</TouchableOpacity>
 			</View>
+
 			<Button title={"Add"} onPress={() => submitIngredientHandler()} />
 
 			<Button
