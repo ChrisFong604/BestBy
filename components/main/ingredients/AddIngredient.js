@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Button } from "react-native";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
 import firebase from "firebase";
 import { auth, db } from "../../../firebase";
 

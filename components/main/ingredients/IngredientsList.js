@@ -12,7 +12,6 @@ import EditIngredient from "./EditIngredient";
 
 import firebase from "firebase";
 import { db } from "../../../firebase";
-import { data } from "browserslist";
 
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
 function IngredientsListScreen({ navigation }) {
