@@ -8,6 +8,7 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 
 import Ingredient from "./Ingredient";
 import AddIngredient from "./AddIngredient";
+import EditIngredient from "./EditIngredient";
 
 import firebase from "firebase";
 import { db } from "../../../firebase";
@@ -15,102 +16,113 @@ import { data } from "browserslist";
 
 //const addButton = <Icon.Button name="plus-circle" backgroundColor="black" />;
 function IngredientsListScreen({ navigation }) {
-	const [loading, setLoading] = useState(true);
-	const [foodInventory, setFoodInventory] = useState();
+  const [loading, setLoading] = useState(true);
+  const [foodInventory, setFoodInventory] = useState();
 
-	const fetchData = async () => {
-		const ref = db.collection("users");
-		
-		const listener = ref
-			.doc(firebase.auth().currentUser.uid)
-			.onSnapshot((doc) => {
-				console.log("Listener returns: ", doc.data());
-				const doc1 = doc;
+  const navigateEditIngredient = () => navigation.navigate("EditIngredient");
 
-				setFoodInventory(doc1.data().inventory);
-			});
-			
-		const doc = await ref.doc(firebase.auth().currentUser.uid).get();
+  const fetchData = async () => {
+    const ref = db.collection("users");
 
-		setLoading(false);
-	};
+    const listener = ref
+      .doc(firebase.auth().currentUser.uid)
+      .onSnapshot((doc) => {
+        console.log("Listener returns: ", doc.data());
+        const doc1 = doc;
 
-	useEffect(() => {
-		fetchData();
-	}, []);
-	
+        setFoodInventory(doc1.data().inventory);
+      });
 
-	return loading ? (
-		<SafeAreaView style={Default.ViewContainer}>
-			<View style={{ flexDirection: "row"}}>
-				<QStext text={"Current Inventory"} h2 />
-			</View>
+    const doc = await ref.doc(firebase.auth().currentUser.uid).get();
 
-			<MaterialCommunityIcons.Button
-				name="plus-circle"
-				color={"black"}
-				iconStyle={{
-					margin: 0,
-					padding: 0,
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-				backgroundColor={"orange"}
-				size={20}
-				borderRadius={100}
-				onPress={() => navigation.navigate("AddIngredient")}
-			>
-				<QStext text={"Add Ingredient"} p />
-			</MaterialCommunityIcons.Button>
-			<ActivityIndicator size="large" color="blue" />
-		</SafeAreaView>
-	) : (
-		<SafeAreaView style={Default.ViewContainer}>
-			<View style={{ flexDirection: "row" }}>
-				<QStext text={"Current Inventory"} h2 />
-			</View>
+    setLoading(false);
+  };
 
-			<MaterialCommunityIcons.Button
-				name="plus-circle"
-				color={"black"}
-				iconStyle={{
-					margin: 0,
-					padding: 0,
-					alignItems: "center",
-					justifyContent: "center",
-				}}
-				backgroundColor={"orange"}
-				size={20}
-				borderRadius={100}
-				onPress={() => navigation.navigate("AddIngredient")}
-			>
-				<QStext text={"Add Ingredient"} p />
-			</MaterialCommunityIcons.Button>
+  useEffect(() => {
+    fetchData();
+  }, []);
 
-			{foodInventory.map((food, index) => (
-				<Ingredient key={index} Ingredient={food} />
-			))}
-		</SafeAreaView>
-	);
+  return loading ? (
+    <SafeAreaView style={Default.ViewContainer}>
+      <View style={{ flexDirection: "row" }}>
+        <QStext text={"Current Inventory"} h2 />
+      </View>
+
+      <MaterialCommunityIcons.Button
+        name="plus-circle"
+        color={"black"}
+        iconStyle={{
+          margin: 0,
+          padding: 0,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        backgroundColor={"orange"}
+        size={20}
+        borderRadius={100}
+        onPress={() => navigation.navigate("AddIngredient")}
+      >
+        <QStext text={"Add Ingredient"} p />
+      </MaterialCommunityIcons.Button>
+      <ActivityIndicator size="large" color="blue" />
+    </SafeAreaView>
+  ) : (
+    <SafeAreaView style={Default.ViewContainer}>
+      <View style={{ flexDirection: "row" }}>
+        <QStext text={"Current Inventory"} h2 />
+      </View>
+
+      <MaterialCommunityIcons.Button
+        name="plus-circle"
+        color={"black"}
+        iconStyle={{
+          margin: 0,
+          padding: 0,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        backgroundColor={"orange"}
+        size={20}
+        borderRadius={100}
+        onPress={() => navigation.navigate("AddIngredient")}
+      >
+        <QStext text={"Add Ingredient"} p />
+      </MaterialCommunityIcons.Button>
+
+      {foodInventory.map((food, index) => (
+        <Ingredient
+          key={index}
+          Ingredient={food}
+          EditPage={() => navigation.navigate("EditIngredient")}
+        />
+      ))}
+    </SafeAreaView>
+  );
 }
 
 const Stack = createStackNavigator();
 
 function IngredientStack() {
-	return (
-		<Stack.Navigator initialRouteName="IngredientsListScreen">
-			<Stack.Screen
-				name="IngredientsList"
-				component={IngredientsListScreen}
-				options={{ headerShown: false }}
-			/>
-			<Stack.Screen
-				name="AddIngredient"
-				component={AddIngredient}
-				options={{ headerShown: false }}
-			/>
-		</Stack.Navigator>
-	);
+  return (
+    <Stack.Navigator initialRouteName="IngredientsListScreen">
+      <Stack.Screen
+        name="IngredientsList"
+        component={IngredientsListScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AddIngredient"
+        component={AddIngredient}
+        options={{ headerShown: true }}
+      />
+
+      <Stack.Screen
+        name="EditIngredient"
+        component={EditIngredient}
+        options={{ headerShown: true }}
+      />
+    </Stack.Navigator>
+  );
 }
 
 export default IngredientStack;
