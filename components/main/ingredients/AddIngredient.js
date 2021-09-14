@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Button } from "react-native";
 import Calendar from "react-calendar";
-import "react-calendar/dist/Calendar.css";
+//import "react-calendar/dist/Calendar.css";
 import firebase from "firebase";
 import { auth, db } from "../../../firebase";
-import { Picker } from "@react-native-picker/picker";
+//import { Picker } from "@react-native-picker/picker";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
