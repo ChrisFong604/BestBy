@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { View, TextInput, TouchableOpacity, Button } from "react-native";
-import Calendar from "react-calendar";
+
+//import "react-calendar/dist/Calendar.css";
 import firebase from "firebase";
 import { auth, db } from "../../../firebase";
-import { Picker } from "@react-native-picker/picker";
 
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -16,36 +16,7 @@ function AddIngredient({ navigation }) {
   const [expirationDate, setExpirationDate] = useState("");
   const [foodGroup, setFoodGroup] = useState("");
 
-  const cameraLaunch = () => {
-    let options = {
-      storageOptions: {
-        skipBackup: true,
-        path: "images",
-      },
-    };
-    ImagePicker.launchCamera(options, (res) => {
-      console.log("Response = ", res);
-
-      if (res.didCancel) {
-        console.log("User cancelled image picker");
-      } else if (res.error) {
-        console.log("ImagePicker Error: ", res.error);
-      } else if (res.customButton) {
-        console.log("User tapped custom button: ", res.customButton);
-        alert(res.customButton);
-      } else {
-        const source = { uri: res.uri };
-        console.log("response", JSON.stringify(res));
-        this.setState({
-          filePath: res,
-          fileData: res.data,
-          fileUri: res.uri,
-        });
-      }
-    });
-  };
-
-  const submitIngredientHandler = async () => {
+  const submitIngredientHandler = () => {
     const ref = firebase
       .firestore()
       .collection("users")
@@ -83,25 +54,17 @@ function AddIngredient({ navigation }) {
       </View>
 
       <View style={{ flexDirection: "row" }}>
-				<MaterialCommunityIcons
-					name="food"
-					size={25}
-					style={{ alignSelf: "center" }}
-				/>
-				<Picker
-					style={Default.Input}
-					selectedValue={foodGroup}
-					onValueChange={(itemValue, itemIndex) => setFoodGroup(itemValue)
-				}>
-					<Picker.Item label="Select..." value="null" />
-					<Picker.Item label="Fruits" value="fruits" />
-					<Picker.Item label="Meats" value="meats" />
-					<Picker.Item label="Vegetables" value="vegetables" />
-					<Picker.Item label="Grains" value="grains" />
-					<Picker.Item label="Dairy" value="dairy" />
-					<Picker.Item label="Other" value="other" />
-				</Picker>
-			</View>
+        <MaterialCommunityIcons
+          name="food"
+          size={25}
+          style={{ alignSelf: "center" }}
+        />
+        <TextInput
+          style={Default.Input}
+          placeholder="foodgroup"
+          onChangeText={(foodgroup) => setFoodGroup(foodgroup)}
+        ></TextInput>
+      </View>
 
       <View style={{ flexDirection: "row" }}>
         <MaterialCommunityIcons
